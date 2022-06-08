@@ -1,10 +1,10 @@
-package com.openclassrooms.safetynetalert.api;
+package com.safetynet.safetynetalert;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ApiApplicationTests {
+class SafetynetalertApplicationTests {
 
 	@Test
 	void contextLoads() {

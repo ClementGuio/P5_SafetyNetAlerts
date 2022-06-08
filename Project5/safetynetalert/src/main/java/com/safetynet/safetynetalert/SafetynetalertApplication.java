@@ -1,13 +1,13 @@
-package com.openclassrooms.safetynetalert.api;
+package com.safetynet.safetynetalert;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ApiApplication {
+public class SafetynetalertApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ApiApplication.class, args);
+		SpringApplication.run(SafetynetalertApplication.class, args);
 	}
 
 }

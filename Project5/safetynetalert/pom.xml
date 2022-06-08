@@ -8,11 +8,11 @@
 		<version>2.7.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.openclassrooms.safetynetalert</groupId>
-	<artifactId>api</artifactId>
+	<groupId>com.safetynet</groupId>
+	<artifactId>safetynetalert</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>api</name>
-	<description>SafetyNetAlert API with Spring boot</description>
+	<name>safetynetalert</name>
+	<description>SafetyNet Alert API with spring</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
