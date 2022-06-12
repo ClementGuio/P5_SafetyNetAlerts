@@ -12,6 +12,12 @@ import com.safetynet.safetynetalerts.model.DataAlert;
 import com.safetynet.safetynetalerts.model.Person;
 
 //TODO : classes Deserializer, Serializer????
+//TODO : change types (String->LocalDate, ...)
+//TODO : try to write Json
+//TODO : SOLID in model
+//TODO : find a good name for DataAlert and dataAlertReaderJSON classes
+//TODO : begin to create RESTController and try some basic requests
+//TODO : priority order for the TODO list
 
 @Component
 public class DataAlertReaderJSON {
