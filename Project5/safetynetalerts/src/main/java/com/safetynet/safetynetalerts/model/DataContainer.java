@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"persons","firestations","medicalrecords"})
 @Generated("jsonschema2pojo")
-public class DataAlert {
+public class DataContainer {
 
 	@JsonProperty("persons")
 	private List<Person> persons = null;

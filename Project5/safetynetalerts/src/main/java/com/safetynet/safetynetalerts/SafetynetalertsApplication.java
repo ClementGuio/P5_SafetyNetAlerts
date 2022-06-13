@@ -6,13 +6,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.safetynet.safetynetalerts.controller.AlertCommandLineController;
-import com.safetynet.safetynetalerts.repository.DataAlertReaderJSON;
+import com.safetynet.safetynetalerts.repository.DataJSONDeserializer;
 
 @SpringBootApplication
 public class SafetynetalertsApplication {
 
 	@Autowired
-	DataAlertReaderJSON dataAlertReader;
+	DataJSONDeserializer dataAlertReader;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SafetynetalertsApplication.class, args);

@@ -1,5 +1,6 @@
 package com.safetynet.safetynetalerts.model;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,10 +9,15 @@ import javax.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"firstName","lastName","birthdate","medications",})
@@ -22,8 +28,11 @@ public class Medicalrecord {
 	private String firstName; 
 	@JsonProperty("lastName")
 	private String lastName; 
+	@JsonDeserialize(using = LocalDateDeserializer.class)  
+	@JsonSerialize(using = LocalDateSerializer.class)
+    @JsonFormat(pattern="MM/dd/yyyy")
 	@JsonProperty("birthdate")
-	private String birthdate;
+	private LocalDate birthdate;
 	@JsonProperty("medications")
 	private List<String> medications = null; 
 	@JsonProperty("allergies")
@@ -57,12 +66,12 @@ public class Medicalrecord {
 	}
 	
 	@JsonProperty("birthdate")
-	public String getBirthdate() {
+	public LocalDate getBirthdate() {
 		return birthdate;
 	}
 	
 	@JsonProperty("birthdate")
-	public void setBirthdate(String birthdate) {
+	public void setBirthdate(LocalDate birthdate) {
 		this.birthdate = birthdate;
 	}
 	

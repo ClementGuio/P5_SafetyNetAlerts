@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.safetynet.safetynetalerts.repository.DataAlertReaderJSON;
+import com.safetynet.safetynetalerts.repository.DataJSONDeserializer;
 
 @Component
 public class AlertCommandLineController implements CommandLineRunner{
 
 	@Autowired
-	DataAlertReaderJSON dataAlertReader;
+	DataJSONDeserializer dataAlertReader;
 	
 	@Override
 	public void run(String... args) throws Exception {
