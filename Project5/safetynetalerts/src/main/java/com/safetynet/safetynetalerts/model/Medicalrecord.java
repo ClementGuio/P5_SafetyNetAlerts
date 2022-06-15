@@ -40,6 +40,7 @@ public class Medicalrecord {
 	@JsonIgnore
 	private Map<String,Object> additionalProperties = new HashMap<String,Object>();
 	
+	
 	@Override
 	public String toString() {
 		return firstName+" "+lastName+"\nbirthdate : "+birthdate+"\nmedications : "+medications+"\nallergies : "+allergies+"\n";

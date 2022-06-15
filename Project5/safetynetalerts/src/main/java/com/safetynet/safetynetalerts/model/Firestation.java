@@ -11,6 +11,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"address","station"})
@@ -20,9 +23,10 @@ public class Firestation {
 	@JsonProperty("address")
 	private String address; 
 	@JsonProperty("station")
-	private String station;
+	private Integer station;
 	@JsonIgnore
 	private Map<String,Object> additionalProperties = new HashMap<String,Object>();
+	
 	
 	@Override
 	public String toString() {
@@ -40,12 +44,12 @@ public class Firestation {
 	}
 
 	@JsonProperty("station")
-	public String getStation() {
+	public Integer getStation() {
 		return station;
 	}
 
 	@JsonProperty("station")
-	public void setStation(String station) {
+	public void setStation(Integer station) {
 		this.station = station;
 	}
 	

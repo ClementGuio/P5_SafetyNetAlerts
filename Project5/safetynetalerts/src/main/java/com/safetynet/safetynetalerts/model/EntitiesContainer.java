@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
+
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -11,20 +14,22 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+@Component
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"persons","firestations","medicalrecords"})
 @Generated("jsonschema2pojo")
-public class DataContainer {
+public class EntitiesContainer {
 
 	@JsonProperty("persons")
-	private List<Person> persons = null;
+	private static List<Person> persons = null;
 	@JsonProperty("firestations")
-	private List<Firestation> firestations = null;
+	private static List<Firestation> firestations = null;
 	@JsonProperty("medicalrecords")
-	private List<Medicalrecord> medicalrecords = null;
+	private static List<Medicalrecord> medicalrecords = null;
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
+	
+	
 	@Override
 	public String toString() {
 		String str = "persons :\n";
