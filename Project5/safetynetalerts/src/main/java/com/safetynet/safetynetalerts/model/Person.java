@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"firstName","lastName","address","city","zip","phone","email"})
 @Generated("jsonschema2pojo")
-public class Person {
+public class Person{
 	
 	@JsonProperty("firstName")
 	private String firstName; 
@@ -31,6 +31,7 @@ public class Person {
 	private String phone;
 	@JsonProperty("email")
 	private String email;
+	
 	@JsonIgnore
 	private Map<String,Object> additionalProperties = new HashMap<String,Object>();
 	

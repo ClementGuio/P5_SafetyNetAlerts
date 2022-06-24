@@ -10,7 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.safetynet.safetynetalerts.model.EntitiesContainer;
 import com.safetynet.safetynetalerts.model.Person;
+import com.safetynet.safetynetalerts.model.PersonMedicalrecordFirestation;
+import com.safetynet.safetynetalerts.repository.DataJSONSerializer;
+import com.safetynet.safetynetalerts.service.AlertBuilder;
 import com.safetynet.safetynetalerts.service.EntitiesService;
 
 @RestController
@@ -20,6 +25,30 @@ public class AlertRestController {
 	
 	@Autowired
 	EntitiesService entities;
+	
+	@Autowired
+	AlertBuilder alertBuilder;
+	
+	@Autowired
+	EntitiesContainer container;
+	
+	DataJSONSerializer serializer = new DataJSONSerializer();;
+	
+	//TEST
+	/*@GetMapping("/resumepersons")
+	public String getResumePersons() throws Exception{
+		logger.info("/resumepersons");
+		return serializer.generateAlert(container.getLinkedEntities());
+	}*/
+	
+	@GetMapping("/linkedpersons") 
+	public JsonNode getLinkedPersons() throws Exception{
+		logger.info("/linkedpersons");
+		//return serializer.generateAlert(container.getLinkedEntities());
+		return null;
+	}
+	 
+	
 	
 	@GetMapping("/person")
 	public List<Person> getPersons(){
@@ -32,41 +61,52 @@ public class AlertRestController {
 		return entities.getPerson(firstName, lastName);
 	}
 	
+	@GetMapping(value = "/linkedentities")
+	public List<PersonMedicalrecordFirestation> getLinkedEntities(){
+		logger.info("/linkedentities");
+		return container.getLinkedEntities();
+	}
 	//public
-	//TODO : types de retour invalides -> besoin de classe supplémentaires
+	
+	//OK
 	@GetMapping(value = "/firestation", params = {"stationNumber"})
-	public List<Person> getPersonsCoveredBy(@RequestParam int stationNumber){
-		return null;
+	public JsonNode getPersonsCoveredBy(@RequestParam int stationNumber){
+		logger.info("/firestation?stationNumber?"+stationNumber);
+		return alertBuilder.buildFirestationAlert(stationNumber);
 	}
-	
+	//OK
 	@GetMapping(value = "/childAlert", params = {"address"})
-	public List<Person> getChild(@RequestParam String address){
-		return null;
+	public JsonNode getChildAlert(@RequestParam String address){
+		logger.info("getChildAlert("+address+")");
+		return alertBuilder.buildChildAlert(address);
 	}
-	
+	//OK
 	@GetMapping(value = "/phoneAlert", params = {"firestation"})
-	public List<String> getPhoneNumberCoveredBy(@RequestParam int firestation){
-		return null;
+	public JsonNode getPhoneAlert(@RequestParam int firestation) throws Exception{
+		logger.info("/phoneAlert?firestation="+firestation);
+		return alertBuilder.buildPhoneAlert(firestation);
 	}
 	
-	@GetMapping(value = "fire?address={address}", params = {"address"})
-	public List<String> getInhabitantsAndFirestationAt(String address){
-		return null;
+	@GetMapping(value = "/fire", params = {"address"})
+	public JsonNode getFireAlert(String address){
+		logger.info("getFireAlert("+address+")");
+		return alertBuilder.buildFireAlert(address);
 	}
 	
-	@GetMapping(value = "flood/stations", params = {"numberStationList"})
-	public List<String> getHomesCoveredBy(List<Integer> numberStationList){
-		return null;
+	@GetMapping(value = "flood/stations", params = {"stations"})
+	public JsonNode getFloodAlert(@RequestParam Integer... stations){
+		logger.info("getFloodAlert("+stations+")");
+		return alertBuilder.buildFloodAlert(stations);
 	}
 	
-	@GetMapping(value = "personInfo", params = {"firstName","lastName"})
+	@GetMapping(value = "/personInfo", params = {"firstName","lastName"})
 	public List<String> getPersonInfo(String firstName, String lastName){
 		return null;
 	}
-	
-	@GetMapping(value = "communityEmail", params = {"city"})
-	public List<String> getInhabitantsEmail(String city){
-		return null;
+	//OK
+	@GetMapping(value = "/communityEmail", params = {"city"})
+	public JsonNode getInhabitantsEmail(@RequestParam String city){
+		return alertBuilder.buildCommunityEmailAlert(city);
 	}
 	
 }
