@@ -61,7 +61,7 @@ public class EntitiesContainer implements EntityLinker{
 	public void linkEntities() {
 		List<PersonMedicalrecordFirestation> linkedEntities = new ArrayList<PersonMedicalrecordFirestation>(); 
 		for (Person person : persons) {
-			System.out.println(person);
+			//System.out.println(person);
 			linkedEntities.add(new PersonMedicalrecordFirestation(person,getMedicalrecordOf(person),getFirestationOf(person)));
 		}
 		this.linkedEntities = linkedEntities;

@@ -13,7 +13,7 @@ import com.safetynet.safetynetalerts.model.Medicalrecord;
 public class MedicalrecordTest {
 
 	Medicalrecord medicalrecord = new Medicalrecord();;
-	
+	/*
 	@Test
 	public void testIsChild() {
 		medicalrecord.setBirthdate(LocalDate.now().minusYears(17));
@@ -27,6 +27,6 @@ public class MedicalrecordTest {
 		System.out.println("Adult = "+medicalrecord);
 		assertFalse(medicalrecord.isChild());
 	}
-	
+	*/
 	
 }

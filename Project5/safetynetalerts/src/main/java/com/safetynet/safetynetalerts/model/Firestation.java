@@ -27,6 +27,17 @@ public class Firestation{
 	
 	
 	@Override
+	public boolean equals(Object obj) {
+		if (this==obj) return true;
+		if (obj==null) return false;
+		if (getClass() != obj.getClass()) return false;
+		Firestation other = (Firestation) obj;
+		if (!address.equals(other.address)) return false;
+		if (station != other.station) return false;
+		return true;
+	}
+	
+	@Override
 	public String toString() {
 		return "address : "+address+"\nstation : "+station+"\n";
 	}

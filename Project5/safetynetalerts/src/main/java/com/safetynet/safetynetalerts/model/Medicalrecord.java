@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -21,7 +22,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 @JsonPropertyOrder({"firstName","lastName","birthdate","medications",})
 @Generated("jsonschema2pojo")
 public class Medicalrecord{
-	
+
 	@JsonProperty("firstName")
 	private String firstName; 
 	@JsonProperty("lastName")
@@ -38,6 +39,26 @@ public class Medicalrecord{
 	private Map<String,Object> additionalProperties = new HashMap<String,Object>();
 	
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (this==obj) return true;
+		if (obj==null) return false;
+		if (getClass() != obj.getClass()) return false;
+		Medicalrecord other = (Medicalrecord) obj;
+		if (!firstName.equals(other.firstName)) return false;
+		if (!lastName.equals(other.lastName)) return false;
+		if (!birthdate.equals(other.birthdate)) return false;
+		if (medications.size()!=other.medications.size()) return false;
+		for (int i=0;i<medications.size();i++) {
+			if (!medications.get(i).equals(other.medications.get(i))) return false;
+		}
+		if (allergies.size()!=other.allergies.size()) return false;
+		for (int i=0; i<allergies.size();i++) {
+			if (!allergies.get(i).equals(other.allergies.get(i))) return false;
+		}
+		return true;
+	}
+	//TODO : déplacer gestion de l'age
 	public boolean isChild() {
 		return age() < 18;
 	}
@@ -45,6 +66,7 @@ public class Medicalrecord{
 	public int age() {
 		return this.birthdate.until(LocalDate.now()).getYears();
 	}
+	
 	
 	@Override
 	public String toString() {

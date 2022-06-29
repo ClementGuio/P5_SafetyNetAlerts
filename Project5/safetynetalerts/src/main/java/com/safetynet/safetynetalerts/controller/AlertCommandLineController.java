@@ -10,7 +10,11 @@ import com.safetynet.safetynetalerts.model.EntitiesContainer;
 import com.safetynet.safetynetalerts.model.PersonMedicalrecordFirestation;
 import com.safetynet.safetynetalerts.repository.DataJSONDeserializer;
 import com.safetynet.safetynetalerts.service.EntitiesService;
-import com.safetynet.safetynetalerts.service.AlertService;
+
+//TODO : SWAGGER (tests + doc)
+//TODO : javadoc
+//TODO : SOLID
+
 
 @Component
 public class AlertCommandLineController implements CommandLineRunner{
@@ -22,9 +26,6 @@ public class AlertCommandLineController implements CommandLineRunner{
 	EntitiesContainer entities;
 	@Autowired
 	EntitiesService entitiesService;
-	
-	@Autowired
-	AlertService alert;
 	
 	private String address1 = "1509 Culver St";
 	

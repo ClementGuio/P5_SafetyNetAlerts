@@ -18,6 +18,8 @@ import com.safetynet.safetynetalerts.repository.DataJSONSerializer;
 import com.safetynet.safetynetalerts.service.AlertBuilder;
 import com.safetynet.safetynetalerts.service.EntitiesService;
 
+//TODO : PUT ????
+
 @RestController
 public class AlertRestController {
 
@@ -32,42 +34,7 @@ public class AlertRestController {
 	@Autowired
 	EntitiesContainer container;
 	
-	DataJSONSerializer serializer = new DataJSONSerializer();;
-	
-	//TEST
-	/*@GetMapping("/resumepersons")
-	public String getResumePersons() throws Exception{
-		logger.info("/resumepersons");
-		return serializer.generateAlert(container.getLinkedEntities());
-	}*/
-	
-	@GetMapping("/linkedpersons") 
-	public JsonNode getLinkedPersons() throws Exception{
-		logger.info("/linkedpersons");
-		//return serializer.generateAlert(container.getLinkedEntities());
-		return null;
-	}
-	 
-	
-	
-	@GetMapping("/person")
-	public List<Person> getPersons(){
-		logger.info("/person");
-		return entities.getPersons();
-	}
-	@GetMapping(value = "/person", params = {"firstName","lastName"})
-	public Person getPerson(@RequestParam String firstName, @RequestParam String lastName) {
-		logger.info("/person?firstName="+firstName+"&lastName="+lastName);
-		return entities.getPerson(firstName, lastName);
-	}
-	
-	@GetMapping(value = "/linkedentities")
-	public List<PersonMedicalrecordFirestation> getLinkedEntities(){
-		logger.info("/linkedentities");
-		return container.getLinkedEntities();
-	}
-	//public
-	
+	//ALERTS
 	//OK
 	@GetMapping(value = "/firestation", params = {"stationNumber"})
 	public JsonNode getPersonsCoveredBy(@RequestParam int stationNumber){
@@ -93,19 +60,20 @@ public class AlertRestController {
 		return alertBuilder.buildFireAlert(address);
 	}
 	
-	@GetMapping(value = "flood/stations", params = {"stations"})
+	@GetMapping(value = "/flood/stations", params = {"stations"})
 	public JsonNode getFloodAlert(@RequestParam Integer... stations){
 		logger.info("getFloodAlert("+stations+")");
 		return alertBuilder.buildFloodAlert(stations);
 	}
 	
 	@GetMapping(value = "/personInfo", params = {"firstName","lastName"})
-	public List<String> getPersonInfo(String firstName, String lastName){
-		return null;
+	public JsonNode getPersonInfo(String firstName, String lastName){
+		logger.info("/person?firstName="+firstName+"&lastName="+lastName);
+		return alertBuilder.buildPersonInfo(firstName, lastName);
 	}
 	//OK
 	@GetMapping(value = "/communityEmail", params = {"city"})
-	public JsonNode getInhabitantsEmail(@RequestParam String city){
+	public JsonNode getCommunityEmail(@RequestParam String city){
 		return alertBuilder.buildCommunityEmailAlert(city);
 	}
 	

@@ -30,56 +30,137 @@ public class EntitiesService {
 	
 	@Autowired
 	EntitiesContainer entities;
-	
-	//------------------------------------
-	
-	
-	//-----------------------------------
-	
+		
 	public void showEntities() {
 		logger.info("showEntities()");
 		System.out.println(entities.toString());
 	}
 	
-	public List<Person> getPersons() {
-		logger.info("getPersons()");
-		return entities.getPersons();
+	public void showPersons() {
+		System.out.println(entities.getPersons());
 	}
 	
-	public List<Firestation> getFirestations(){
-		logger.info("getFirestations()");
-		return entities.getFirestations();
+	public void showMedicalrecords() {
+		System.out.println(entities.getMedicalrecords());
 	}
 	
-	public Person getPerson(String firstName, String lastName) {
-		logger.info("getPerson("+firstName+","+lastName+")");
-		
-		for (Person person : getPersons()) {
-			//System.out.println(person);
-			if (person.getFirstName().equals(firstName) && person.getLastName().equals(lastName)) {
-				return person;
+	public void showFirestations() {
+		System.out.println(entities.getFirestations());
+	}
+	
+	/*
+	 * public List<Person> getPersons() { logger.info("getPersons()"); return
+	 * entities.getPersons(); }
+	 * 
+	 * public List<Firestation> getFirestations(){ logger.info("getFirestations()");
+	 * return entities.getFirestations(); }
+	 * 
+	 * public Person getPerson(String firstName, String lastName) {
+	 * logger.info("getPerson("+firstName+","+lastName+")"); for (Person person :
+	 * getPersons()) { //System.out.println(person); if
+	 * (person.getFirstName().equals(firstName) &&
+	 * person.getLastName().equals(lastName)) { return person; } } return null; }
+	 * 
+	 * //------------------MedicalRecord---------------- public List<Medicalrecord>
+	 * medicalRecordsOf(String firstName, String lastName) {
+	 * Predicate<Medicalrecord> firstNamePredicate = m ->
+	 * ((Medicalrecord)m).getFirstName().equals(firstName); Predicate<Medicalrecord>
+	 * lastNamePredicate = m -> ((Medicalrecord)m).getLastName().equals(lastName);
+	 * return
+	 * ListUtils.select(entities.getMedicalrecords(),PredicateUtils.andPredicate(
+	 * firstNamePredicate, lastNamePredicate)); } public List<Medicalrecord>
+	 * medicalRecordsOf(Person person) { Predicate<Medicalrecord> firstNamePredicate
+	 * = m -> ((Medicalrecord)m).getFirstName().equals(person.getFirstName());
+	 * Predicate<Medicalrecord> lastNamePredicate = m ->
+	 * ((Medicalrecord)m).getLastName().equals(person.getLastName()); return
+	 * ListUtils.select(entities.getMedicalrecords(),PredicateUtils.andPredicate(
+	 * firstNamePredicate, lastNamePredicate)); }
+	 * 
+	 * //Essai public Collection<Firestation> getStationUnder(int number){
+	 * logger.info("getStationUnder("+number+")"); ArrayList<Firestation> res = new
+	 * ArrayList<Firestation>(entities.getFirestations()); return
+	 * CollectionUtils.filter(res, f -> ((Firestation)f).getStation() < number); }
+	 */
+
+	public void removeMedicalrecord(String firstName, String lastName) {
+		Medicalrecord recordToRemove = null;
+		for (Medicalrecord record : entities.getMedicalrecords()) {
+			if (record.getFirstName().equals(firstName) && record.getLastName().equals(lastName)) {
+				recordToRemove = record;
+				break;
 			}
 		}
-		return null;
+		entities.getMedicalrecords().remove(recordToRemove);
 	}
-	
-	//------------------MedicalRecord----------------
-	public List<Medicalrecord> medicalRecordsOf(String firstName, String lastName) {
-		Predicate<Medicalrecord> firstNamePredicate = m -> ((Medicalrecord)m).getFirstName().equals(firstName);
-		Predicate<Medicalrecord> lastNamePredicate = m -> ((Medicalrecord)m).getLastName().equals(lastName);
-		return ListUtils.select(entities.getMedicalrecords(),PredicateUtils.andPredicate(firstNamePredicate, lastNamePredicate));
+
+	public void updateMedicalrecord(Medicalrecord record) {
+		String firstName = record.getFirstName();
+		String lastName = record.getLastName();
+		for (Medicalrecord mr : entities.getMedicalrecords()) {
+			if (mr.getFirstName().equals(firstName) && mr.getLastName().equals(lastName)) {
+				mr.setBirthdate(record.getBirthdate());
+				mr.setMedications(record.getMedications());
+				mr.setAllergies(record.getAllergies());
+				return;
+			}
+		}
 	}
-	public List<Medicalrecord> medicalRecordsOf(Person person) {
-		Predicate<Medicalrecord> firstNamePredicate = m -> ((Medicalrecord)m).getFirstName().equals(person.getFirstName());
-		Predicate<Medicalrecord> lastNamePredicate = m -> ((Medicalrecord)m).getLastName().equals(person.getLastName());
-		return ListUtils.select(entities.getMedicalrecords(),PredicateUtils.andPredicate(firstNamePredicate, lastNamePredicate));
+
+	public void addMedicalrecord(Medicalrecord record) {
+		entities.getMedicalrecords().add(record);
 	}
-	
-	//Essai
-	public Collection<Firestation> getStationUnder(int number){
-		logger.info("getStationUnder("+number+")");
-		ArrayList<Firestation> res = new ArrayList<Firestation>(entities.getFirestations());
-		return CollectionUtils.filter(res, f -> ((Firestation)f).getStation() < number);
+
+	public void removeFirestation(Firestation station) {
+		logger.info("removeFirestation : "+station.toString());
+		entities.getFirestations().remove(station);
+	}
+
+	public void updateFirestation(Firestation station) {
+		logger.info("updateFirestation : "+station.toString());
+		String address = station.getAddress();
+		for (Firestation fs : entities.getFirestations()) {
+			if (fs.getAddress().equals(address)) {
+				fs.setStation(station.getStation());
+				return;
+			}
+		}
+	}
+
+	public void addFirestation(Firestation station) {
+		logger.info("addFirestation : "+station.toString());
+		entities.getFirestations().add(station);
+		
+	}
+
+	public void removePerson(String firstName, String lastName) {
+		Person personToRemove = null;
+		for (Person person : entities.getPersons()) {
+			if (person.getFirstName().equals(firstName) && person.getLastName().equals(lastName)){
+				System.out.println("Found :"+firstName+", "+lastName);
+				personToRemove = person;
+				break;
+			}
+		}
+		entities.getPersons().remove(personToRemove);
+	}
+
+	public void updatePerson(Person person) {
+		String firstName = person.getFirstName();
+		String lastName = person.getLastName();
+		for (Person p : entities.getPersons()) {
+			if (p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)) {
+				p.setAddress(person.getAddress());
+				p.setCity(person.getCity());
+				p.setEmail(person.getEmail());
+				p.setPhone(person.getPhone());
+				p.setZip(person.getZip());
+				return;
+			}
+		}
+	}
+
+	public void addPerson(Person person) {
+		entities.getPersons().add(person);
 	}
 	
 }

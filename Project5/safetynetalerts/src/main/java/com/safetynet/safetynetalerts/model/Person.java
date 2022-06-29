@@ -2,6 +2,7 @@ package com.safetynet.safetynetalerts.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.annotation.Generated;
 
@@ -16,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({"firstName","lastName","address","city","zip","phone","email"})
 @Generated("jsonschema2pojo")
 public class Person{
-	
+
 	@JsonProperty("firstName")
 	private String firstName; 
 	@JsonProperty("lastName")
@@ -38,6 +39,22 @@ public class Person{
 	@Override
 	public String toString() {
 		return firstName+" "+lastName+"\nAddress : "+address+"\nCity : "+city+" "+zip+"\nPhone : "+phone+"\nEmail : "+email+"\n";
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this==obj) return true;
+		if (obj==null) return false;
+		if (getClass() != obj.getClass()) return false;
+		Person other = (Person) obj;
+		if (!firstName.equals(other.firstName)) return false;
+		if (!lastName.equals(other.lastName)) return false;
+		if (!address.equals(other.address)) return false;
+		if (city.equals(other.city)) return false;
+		if (!zip.equals(other.zip)) return false;
+		if (!phone.equals(other.phone)) return false;
+		if (!email.equals(other.email)) return false;
+		return true;
 	}
 	
 	@JsonProperty("firstName")

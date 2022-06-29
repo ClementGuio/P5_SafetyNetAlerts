@@ -1,7 +1,6 @@
 package com.safetynet.safetynetalerts.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -19,21 +18,40 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.safetynet.safetynetalerts.model.EntitiesContainer;
-import com.safetynet.safetynetalerts.model.Firestation;
-import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.model.PersonMedicalrecordFirestation;
 
+//TODO : création d'alerte :  alertBuilder.FireAlert.build()   DESIGN PATTERN BUILDER!!!!!
 
 @Service
 public class AlertBuilder {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AlertBuilder.class);
-
-	@Autowired
-	AlertService alertService;
 	
 	@Autowired
 	EntitiesContainer entities;
+	
+	public JsonNode buildPersonInfo(String firstName, String lastName) {
+		logger.info("buildPersonInfo("+firstName+","+lastName+")");
+		ObjectMapper mapper = new ObjectMapper();
+    	ObjectNode node = mapper.createObjectNode();
+    	List<PersonMedicalrecordFirestation> linkedEntities = entities.getLinkedEntities();
+    	Set<Map<String,Object>> response = new HashSet<Map<String,Object>>();
+    	for (PersonMedicalrecordFirestation person : linkedEntities) {
+    		if (person.getFirstName()==firstName && person.getLastName()==lastName) {
+    			Map<String, Object> field = new HashMap<String,Object>();
+    			field.put("firstName", firstName);
+    			field.put("lastName", lastName);
+    			field.put("address", person.getAddress());
+    			field.put("age", person.getAge());
+    			field.put("email", person.getEmail());
+    			field.put("medications", person.getMedications());
+    			field.put("allergies", person.getAllergies());
+    			response.add(field);
+    		}
+    	}
+    	node.set("personInfo", mapper.convertValue(response, JsonNode.class));
+    	return node;
+	}
 	
 	public JsonNode buildPhoneAlert(int stationNumber){
 		logger.info("buildPhoneAlert("+stationNumber+")");
@@ -75,7 +93,7 @@ public class AlertBuilder {
 		//node.putArray("Children");
 		List<Map<String,String>> childrenMaps = new ArrayList<Map<String,String>>();
 		for (PersonMedicalrecordFirestation child : children) {
-			Map<String,String> childrenMap = new HashMap<String,String>();
+			Map<String,String> childrenMap = new LinkedHashMap<String,String>();
 			childrenMap.put("firstName", child.getFirstName());
 			childrenMap.put("lastName", child.getLastName());
 			childrenMap.put("age", child.getAge().toString());
@@ -170,9 +188,5 @@ public class AlertBuilder {
 		node.set("address", mapper.convertValue(fieldAddress, JsonNode.class));
 		return node;
 	}
-	
-	
-	
-	
 	
 }
