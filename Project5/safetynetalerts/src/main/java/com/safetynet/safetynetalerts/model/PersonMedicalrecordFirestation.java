@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
-public class PersonMedicalrecordFirestation {
+public class PersonMedicalrecordFirestation{
 
 	@JsonProperty("firstName")
 	private String firstName; 

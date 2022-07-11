@@ -1,0 +1,40 @@
+{
+	"persons" : [
+			{ "firstName":"Alert","lastName":"Firestation1","address":"1 St","city":"Town","zip":"99999","phone":"123-456","email":"firestation1@email.com" },
+			{ "firstName":"Alert","lastName":"Firestation2","address":"1 St","city":"Town","zip":"99999","phone":"123-457","email":"firestation2@email.com" },
+			{ "firstName":"Alert","lastName":"Child1","address":"2 St","city":"Town","zip":"99999","phone":"345-123","email":"childAlert1@email.com" },
+			{ "firstName":"Alert","lastName":"Child2","address":"2 St","city":"Town","zip":"99999","phone":"345-123","email":"childAlert2@email.com" },
+			{ "firstName":"Alert","lastName":"Child3","address":"2 St","city":"Town","zip":"99999","phone":"345-123","email":"childAlert3@email.com" },
+			{ "firstName":"Alert","lastName":"Child4","address":"2 St","city":"Town","zip":"99999","phone":"345-123","email":"childAlert4@email.com" },
+			{ "firstName":"Alert","lastName":"Fire1","address":"3 St","city":"Town","zip":"99999","phone":"444-123","email":"fireAlert1@email.com" },
+			{ "firstName":"Alert","lastName":"Fire2","address":"3 St","city":"Town","zip":"99999","phone":"444-123","email":"fireAlert2@email.com" },
+			{ "firstName":"Alert","lastName":"Fire3","address":"3 St","city":"Town","zip":"99999","phone":"444-123","email":"fireAlert3@email.com" },
+			{ "firstName":"Alert","lastName":"CommunityEmail1","address":"1 Av.","city":"Community","zip":"99999","phone":"449-123","email":"community1@email.com" },
+			{ "firstName":"Alert","lastName":"CommunityEmail2","address":"2 Av.","city":"Community","zip":"99999","phone":"450-123","email":"community2@email.com" },
+			{ "firstName":"Person","lastName":"Info","address":"4 St","city":"Town","zip":"99999","phone":"000-000","email":"personInfo@email.com" }
+		],
+	"firestations" : [
+			{"address":"1 St","station":"1"},
+			{"address":"2 St","station":"2"},
+			{"address":"3 St","station":"3"},
+			{"address":"1 Av.","station":"4"},
+			{"address":"2 Av.","station":"4"},
+			{"address":"4 St","station":"5"}
+			
+		],
+	"medicalrecords" : [
+			{"firstName":"Alert","lastName":"Firestation1","birthdate":"01/01/2005","medications":[], "allergies":[]},
+			{"firstName":"Alert","lastName":"Firestation2","birthdate":"01/01/1991","medications":[], "allergies":[]},
+			{"firstName":"Alert","lastName":"Child1","birthdate":"01/01/2010","medications":[], "allergies":[]},
+			{"firstName":"Alert","lastName":"Child2","birthdate":"01/01/2011","medications":[], "allergies":[]},
+			{"firstName":"Alert","lastName":"Child3","birthdate":"01/01/1991","medications":[], "allergies":[]},
+			{"firstName":"Alert","lastName":"Child4","birthdate":"01/01/1991","medications":[], "allergies":[]},
+			{ "firstName":"Alert","lastName":"Fire1","birthdate":"01/01/2001","medications":["med1:1g","med2:2mg"], "allergies":["thing1"]},
+			{ "firstName":"Alert","lastName":"Fire2","birthdate":"01/01/2000","medications":["med3:1g"], "allergies":["thing2"]},
+			{ "firstName":"Alert","lastName":"Fire3","birthdate":"01/01/1999","medications":[], "allergies":[]},
+			{ "firstName":"Alert","lastName":"CommunityEmail1","birthdate":"01/01/1999","medications":[], "allergies":[]},
+			{ "firstName":"Alert","lastName":"CommunityEmail2","birthdate":"01/01/1999","medications":[], "allergies":[]},
+			{ "firstName":"Person","lastName":"Info","birthdate":"01/01/1999","medications":[],"allergies":[] }
+		]
+}
+		 

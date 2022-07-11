@@ -27,25 +27,5 @@ public class DataJSONSerializer {
 	
 	@Autowired
 	EntitiesContainer entities;
-	    
-    public JsonNode phoneAlert(int station) throws Exception {
-    	System.out.println("phoneAlert");
-    	ObjectMapper mapper = new ObjectMapper();
-    	ObjectNode node = mapper.createObjectNode();
-    	entities.linkEntities();
-		List<PersonMedicalrecordFirestation> linkedEntities = entities.getLinkedEntities();
-		for (PersonMedicalrecordFirestation linkedEntity : linkedEntities) {
-			System.out.println(linkedEntity);
-		}
-		/*for (PersonMedicalrecordFirestation person : linkedEntities) {
-    		if (person.getStation() == station) {
-    			node.set("phone", mapper.convertValue(person.getPhone(), JsonNode.class));
-    		}
-    	}*/
-    	return node;
-    }
-    
-    
-    
-
+	    //TODO: delete
 }

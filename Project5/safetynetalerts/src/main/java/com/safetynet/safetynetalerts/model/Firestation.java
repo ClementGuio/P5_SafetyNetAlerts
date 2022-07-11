@@ -25,7 +25,13 @@ public class Firestation{
 	@JsonIgnore
 	private Map<String,Object> additionalProperties = new HashMap<String,Object>();
 	
-	
+	/*
+	public Firestation(String address, Integer station) {
+		this.address = address;
+		this.station = station;
+		this.additionalProperties = additionalProperties;
+	}
+*/
 	@Override
 	public boolean equals(Object obj) {
 		if (this==obj) return true;

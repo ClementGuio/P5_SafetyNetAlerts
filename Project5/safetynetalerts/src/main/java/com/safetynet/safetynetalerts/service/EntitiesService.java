@@ -22,7 +22,7 @@ import com.safetynet.safetynetalerts.model.Firestation;
 import com.safetynet.safetynetalerts.model.Medicalrecord;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.model.PersonMedicalrecordFirestation;
-
+//TODO: séparer CRUDService & EntitiesService
 @Service
 public class EntitiesService {
 
@@ -30,7 +30,8 @@ public class EntitiesService {
 	
 	@Autowired
 	EntitiesContainer entities;
-		
+	
+	
 	public void showEntities() {
 		logger.info("showEntities()");
 		System.out.println(entities.toString());
@@ -48,40 +49,7 @@ public class EntitiesService {
 		System.out.println(entities.getFirestations());
 	}
 	
-	/*
-	 * public List<Person> getPersons() { logger.info("getPersons()"); return
-	 * entities.getPersons(); }
-	 * 
-	 * public List<Firestation> getFirestations(){ logger.info("getFirestations()");
-	 * return entities.getFirestations(); }
-	 * 
-	 * public Person getPerson(String firstName, String lastName) {
-	 * logger.info("getPerson("+firstName+","+lastName+")"); for (Person person :
-	 * getPersons()) { //System.out.println(person); if
-	 * (person.getFirstName().equals(firstName) &&
-	 * person.getLastName().equals(lastName)) { return person; } } return null; }
-	 * 
-	 * //------------------MedicalRecord---------------- public List<Medicalrecord>
-	 * medicalRecordsOf(String firstName, String lastName) {
-	 * Predicate<Medicalrecord> firstNamePredicate = m ->
-	 * ((Medicalrecord)m).getFirstName().equals(firstName); Predicate<Medicalrecord>
-	 * lastNamePredicate = m -> ((Medicalrecord)m).getLastName().equals(lastName);
-	 * return
-	 * ListUtils.select(entities.getMedicalrecords(),PredicateUtils.andPredicate(
-	 * firstNamePredicate, lastNamePredicate)); } public List<Medicalrecord>
-	 * medicalRecordsOf(Person person) { Predicate<Medicalrecord> firstNamePredicate
-	 * = m -> ((Medicalrecord)m).getFirstName().equals(person.getFirstName());
-	 * Predicate<Medicalrecord> lastNamePredicate = m ->
-	 * ((Medicalrecord)m).getLastName().equals(person.getLastName()); return
-	 * ListUtils.select(entities.getMedicalrecords(),PredicateUtils.andPredicate(
-	 * firstNamePredicate, lastNamePredicate)); }
-	 * 
-	 * //Essai public Collection<Firestation> getStationUnder(int number){
-	 * logger.info("getStationUnder("+number+")"); ArrayList<Firestation> res = new
-	 * ArrayList<Firestation>(entities.getFirestations()); return
-	 * CollectionUtils.filter(res, f -> ((Firestation)f).getStation() < number); }
-	 */
-
+//CRUD	
 	public void removeMedicalrecord(String firstName, String lastName) {
 		Medicalrecord recordToRemove = null;
 		for (Medicalrecord record : entities.getMedicalrecords()) {
@@ -161,6 +129,15 @@ public class EntitiesService {
 
 	public void addPerson(Person person) {
 		entities.getPersons().add(person);
+	}
+
+	public String getAddressOf(String firstName, String lastName) {
+		for (Person person : entities.getPersons()) {
+			if (person.getFirstName().equals(firstName) && person.getLastName().equals(lastName)) {
+				return person.getAddress();
+			}
+		}
+		return null;
 	}
 	
 }

@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"firstName","lastName","birthdate","medications",})
+@JsonPropertyOrder({"firstName","lastName","birthdate","medications"})
 @Generated("jsonschema2pojo")
 public class Medicalrecord{
 
@@ -38,7 +38,15 @@ public class Medicalrecord{
 	@JsonIgnore
 	private Map<String,Object> additionalProperties = new HashMap<String,Object>();
 	
-	
+	/*
+	public Medicalrecord(String firstName, String lastName, LocalDate birthdate, List<String> medications,
+			List<String> allergies) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthdate = birthdate;
+		this.medications = medications;
+		this.allergies = allergies;
+	}*/
 	@Override
 	public boolean equals(Object obj) {
 		if (this==obj) return true;
@@ -58,15 +66,6 @@ public class Medicalrecord{
 		}
 		return true;
 	}
-	//TODO : déplacer gestion de l'age
-	public boolean isChild() {
-		return age() < 18;
-	}
-	
-	public int age() {
-		return this.birthdate.until(LocalDate.now()).getYears();
-	}
-	
 	
 	@Override
 	public String toString() {

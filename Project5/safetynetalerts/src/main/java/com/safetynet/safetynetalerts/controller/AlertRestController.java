@@ -1,25 +1,21 @@
 package com.safetynet.safetynetalerts.controller;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.safetynet.safetynetalerts.model.EntitiesContainer;
-import com.safetynet.safetynetalerts.model.Person;
-import com.safetynet.safetynetalerts.model.PersonMedicalrecordFirestation;
-import com.safetynet.safetynetalerts.repository.DataJSONSerializer;
 import com.safetynet.safetynetalerts.service.AlertBuilder;
 import com.safetynet.safetynetalerts.service.EntitiesService;
 
-//TODO : PUT ????
+//TODO : Gestion des code status ???
 
+@RequestMapping("/v1")
 @RestController
 public class AlertRestController {
 
@@ -37,7 +33,7 @@ public class AlertRestController {
 	//ALERTS
 	//OK
 	@GetMapping(value = "/firestation", params = {"stationNumber"})
-	public JsonNode getPersonsCoveredBy(@RequestParam int stationNumber){
+	public JsonNode getFirestationAlert(@RequestParam int stationNumber){
 		logger.info("/firestation?stationNumber?"+stationNumber);
 		return alertBuilder.buildFirestationAlert(stationNumber);
 	}

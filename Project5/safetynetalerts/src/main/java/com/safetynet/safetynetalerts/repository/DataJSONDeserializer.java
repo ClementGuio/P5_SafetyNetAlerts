@@ -1,5 +1,6 @@
 package com.safetynet.safetynetalerts.repository;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
 import java.util.List;
@@ -14,16 +15,20 @@ import com.safetynet.safetynetalerts.model.Person;
 
 @Component
 public class DataJSONDeserializer {
-	
+	//TODO: clean 
 	@Autowired
 	private ObjectMapper objectMapper = new ObjectMapper(); 
 	
 	@Autowired
 	private EntitiesContainer data;
 	
-	public void readAndStore() throws Exception {
-		data = objectMapper.readValue(new URL("https://s3-eu-west-1.amazonaws.com/course.oc-static.com/projects/DA+Java+EN/P5+/data.json"), 
-				EntitiesContainer.class);
+	public void readAndStore(URL src) throws Exception {
+		data = objectMapper.readValue(src, EntitiesContainer.class);
+		//System.out.println(data);
+	}
+	
+	public void readAndStore(File src) throws Exception {
+		data = objectMapper.readValue(src, EntitiesContainer.class);
 		//System.out.println(data);
 	}
 

@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.safetynet.safetynetalerts.model.EntitiesContainer;
+import com.safetynet.safetynetalerts.model.LinkedEntitiesContainer;
 import com.safetynet.safetynetalerts.model.PersonMedicalrecordFirestation;
 
 //TODO : création d'alerte :  alertBuilder.FireAlert.build()   DESIGN PATTERN BUILDER!!!!!
@@ -28,7 +29,7 @@ public class AlertBuilder {
 	private static final Logger logger = LoggerFactory.getLogger(AlertBuilder.class);
 	
 	@Autowired
-	EntitiesContainer entities;
+	LinkedEntitiesContainer entities;
 	
 	public JsonNode buildPersonInfo(String firstName, String lastName) {
 		logger.info("buildPersonInfo("+firstName+","+lastName+")");
@@ -37,8 +38,9 @@ public class AlertBuilder {
     	List<PersonMedicalrecordFirestation> linkedEntities = entities.getLinkedEntities();
     	Set<Map<String,Object>> response = new HashSet<Map<String,Object>>();
     	for (PersonMedicalrecordFirestation person : linkedEntities) {
-    		if (person.getFirstName()==firstName && person.getLastName()==lastName) {
-    			Map<String, Object> field = new HashMap<String,Object>();
+    		if (person.getFirstName().equals(firstName) && person.getLastName().equals(lastName)) {
+    			System.out.println("----------------"+firstName+" "+lastName);
+    			Map<String, Object> field = new LinkedHashMap<String,Object>();
     			field.put("firstName", firstName);
     			field.put("lastName", lastName);
     			field.put("address", person.getAddress());
@@ -101,7 +103,16 @@ public class AlertBuilder {
 		}
 		node.set("Children", mapper.convertValue(childrenMaps, JsonNode.class));
 		List<PersonMedicalrecordFirestation> adults = ListUtils.select(household, p -> p.isChild()==false);
-		node.set("household members", mapper.convertValue(adults, JsonNode.class));
+		List<Map<String,String>> adultMaps = new ArrayList<Map<String,String>>();
+		for (PersonMedicalrecordFirestation adult : adults) {
+			Map<String,String> adultMap = new LinkedHashMap<String,String>();
+			adultMap.put("firstName", adult.getFirstName());
+			adultMap.put("lastName", adult.getLastName());
+			adultMap.put("phone", adult.getPhone());
+			adultMap.put("email", adult.getEmail());
+			adultMaps.add(adultMap);
+		}
+		node.set("household members", mapper.convertValue(adultMaps, JsonNode.class));
 		return node;
 	}
 	
@@ -174,7 +185,7 @@ public class AlertBuilder {
 						fieldAddress.put(person.getAddress(), new ArrayList<Map<String,Object>>());
 					}
 					Map<String,Object> fieldInfo = new LinkedHashMap<String,Object>();
-					fieldInfo.put("address", person.getAddress());
+					//fieldInfo.put("address", person.getAddress());
 					fieldInfo.put("firstName", person.getFirstName());
 					fieldInfo.put("LastName", person.getLastName());
 					fieldInfo.put("phone", person.getPhone());

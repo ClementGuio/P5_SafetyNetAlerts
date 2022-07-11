@@ -35,6 +35,19 @@ public class Person{
 	
 	@JsonIgnore
 	private Map<String,Object> additionalProperties = new HashMap<String,Object>();
+/*	
+	public Person(String firstName, String lastName, String address, String city, String zip, String phone,
+			String email) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.city = city;
+		this.zip = zip;
+		this.phone = phone;
+		this.email = email;
+		this.additionalProperties = additionalProperties;
+	}
+	*/
 	
 	@Override
 	public String toString() {

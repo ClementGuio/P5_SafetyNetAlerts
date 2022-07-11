@@ -28,16 +28,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"persons","firestations","medicalrecords"})
 @Generated("jsonschema2pojo")
-public class EntitiesContainer implements EntityLinker{
-	
-	private List<PersonMedicalrecordFirestation> linkedEntities;
+public class EntitiesContainer{
 	
 	@JsonProperty("persons")
-	private static List<Person> persons = null;
+	private static List<Person> persons = new ArrayList<Person>();
 	@JsonProperty("firestations")
-	private static List<Firestation> firestations = null;
+	private static List<Firestation> firestations = new ArrayList<Firestation>();
 	@JsonProperty("medicalrecords")
-	private static List<Medicalrecord> medicalrecords = null;
+	private static List<Medicalrecord> medicalrecords = new ArrayList<Medicalrecord>();
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	
@@ -56,19 +54,6 @@ public class EntitiesContainer implements EntityLinker{
 			str += medicalrecord.toString();
 		}
 		return str;
-	}
-	
-	public void linkEntities() {
-		List<PersonMedicalrecordFirestation> linkedEntities = new ArrayList<PersonMedicalrecordFirestation>(); 
-		for (Person person : persons) {
-			//System.out.println(person);
-			linkedEntities.add(new PersonMedicalrecordFirestation(person,getMedicalrecordOf(person),getFirestationOf(person)));
-		}
-		this.linkedEntities = linkedEntities;
-	}
-	
-	public List<PersonMedicalrecordFirestation> getLinkedEntities(){
-		return linkedEntities;
 	}
 	
 	public Firestation getFirestationOf(Person person) {
