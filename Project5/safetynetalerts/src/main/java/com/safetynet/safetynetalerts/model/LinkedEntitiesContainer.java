@@ -30,15 +30,11 @@ public class LinkedEntitiesContainer {
 	public List<PersonMedicalrecordFirestation> getLinkedEntities(){
 		return linkedEntities;
 	}
-	
-	//TODO : add clearLinkedEntities()
+	//TODO : créer Exception perso pr la cohérence des données
+	//TODO : add clearLinkedEntities() ?
 	public void linkEntities() {
 		List<PersonMedicalrecordFirestation> linkedEntities = new ArrayList<PersonMedicalrecordFirestation>(); 
 		for (Person person : entities.getPersons()) {
-			System.out.println(person);
-			System.out.println(entities.getMedicalrecordOf(person));
-			System.out.println(entities.getFirestationOf(person));
-			System.out.println("-------------------------------------------------------------------------------------------------------------------");
 			linkedEntities.add(new PersonMedicalrecordFirestation(person,entities.getMedicalrecordOf(person),entities.getFirestationOf(person)));
 		}
 		this.linkedEntities = linkedEntities;

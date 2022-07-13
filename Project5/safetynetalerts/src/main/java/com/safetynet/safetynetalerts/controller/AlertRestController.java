@@ -13,7 +13,7 @@ import com.safetynet.safetynetalerts.model.EntitiesContainer;
 import com.safetynet.safetynetalerts.service.AlertBuilder;
 import com.safetynet.safetynetalerts.service.EntitiesService;
 
-//TODO : Gestion des code status ???
+//TODO : renvoyer status code
 
 @RequestMapping("/v1")
 @RestController

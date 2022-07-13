@@ -1,29 +1,21 @@
-package com.safetynet.safetynetalerts.unitTests;
+package com.safetynet.safetynetalerts.integration;
 
-import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.safetynet.safetynetalerts.model.LinkedEntitiesContainer;
-import com.safetynet.safetynetalerts.service.AlertBuilder;
-
-//@RunWith(SpringRunner.class)
-//@WebMvcTest(AlertBuilder.class)
 @AutoConfigureMockMvc
 @SpringBootTest(args = "test")
-public class AlertMockMVCTest {
+public class AlertRestControllerTest {
 	
 	@Autowired
 	private MockMvc mvc;
+	// TODO : Préciser Exception (opt)
 	
 	@Test
 	public void testPersonInfo() throws Exception{

@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts.unitTests;
+package com.safetynet.safetynetalerts.unit;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -34,11 +34,11 @@ public class AlertBuilderTest {
 	Person personMock;
 	
 	@InjectMocks
-	AlertBuilder2 alertBuilder;
+	AlertBuilder alertBuilder;
 	
 	@BeforeEach
 	public void setUp() {
-		alertBuilder = new AlertBuilder2();
+		alertBuilder = new AlertBuilder();
 	}
 	
 	@Test
@@ -46,7 +46,7 @@ public class AlertBuilderTest {
 		Person p1 = new Person("firstname","lastname","1 St","Community","99999","123-123-123","community@email.com");
 		List<Person> persons = Arrays.asList(p1);
 		when(containerMock.getPersons()).thenReturn(persons);
-		//entitiesMock = Mockito.mock(EntitiesService.class, Mockito.RETURNS_DEEP_STUBS);
+		entitiesMock = Mockito.mock(EntitiesService.class, Mockito.RETURNS_DEEP_STUBS);
 		when(personMock.getFirstName()).thenReturn("firstname");
 		when(personMock.getLastName()).thenReturn("lastname");
 		when(entitiesMock.getAddressOf("firstname", "lastname")).thenReturn("1 St");

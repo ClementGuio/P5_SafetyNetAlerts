@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
 
+import com.safetynet.safetynetalerts.exception.IllegalRequestException;
 import com.safetynet.safetynetalerts.model.Firestation;
 import com.safetynet.safetynetalerts.model.Medicalrecord;
 import com.safetynet.safetynetalerts.model.Person;
@@ -19,6 +22,8 @@ import com.safetynet.safetynetalerts.service.EntitiesService;
 @RequestMapping("/v1")
 @RestController
 public class CRUDRestController {
+	
+	//TODO : renvoyer status code
 	
 	Logger logger = LoggerFactory.getLogger(CRUDRestController.class);
 
@@ -33,16 +38,16 @@ public class CRUDRestController {
 		entities.showPersons();
 	}
 	@PutMapping(value="/person")
-	public void updatePerson(@RequestBody Person person ) {
+	public void updatePerson(@RequestBody Person person ) throws IllegalRequestException{
 		logger.info("Put : /person");
 		entities.updatePerson(person);
-		entities.showPersons();
+		//entities.showPersons();
 	}
 	@DeleteMapping(value="/person", params= {"firstName","lastName"})
-	public void deletePerson(@RequestParam String firstName, @RequestParam String lastName) {
+	public void deletePerson(@RequestParam String firstName, @RequestParam String lastName) throws IllegalRequestException{
 		logger.info("Delete : /person?firstName="+firstName+"lastName="+lastName);
 		entities.removePerson(firstName, lastName);
-		entities.showPersons();
+		//entities.showPersons();
 	}
 	
 	//Firestation
@@ -54,16 +59,16 @@ public class CRUDRestController {
 		entities.showFirestations();
 	}
 	@PutMapping(value="/firestation")
-	public void updatePerson(@RequestBody Firestation station) {
+	public void updatePerson(@RequestBody Firestation station) throws IllegalRequestException {
 		logger.info("Put : /firestation");
 		entities.updateFirestation(station);
 		logger.info("Updated");
 		entities.showFirestations();
 	}
-	@DeleteMapping(value="/firestation")
-	public void deletePerson(@RequestBody Firestation station) {
+	@DeleteMapping(value="/firestation", params= {"address","station"})
+	public void deleteFirestation(@RequestParam String address, @RequestParam String station) throws IllegalRequestException {
 		logger.info("Delete : /firestation");
-		entities.removeFirestation(station);
+		entities.removeFirestation(address,Integer.parseInt(station));
 		logger.info("Deleted");
 		entities.showFirestations();
 	}
@@ -75,17 +80,19 @@ public class CRUDRestController {
 		entities.addMedicalrecord(record);
 		entities.showMedicalrecords();
 	}
+	
+	//@ResponseStatus(value = HttpStatus.BAD_REQUEST)
 	@PutMapping(value="/medicalrecord")
-	public void updateMedicalrecord(@RequestBody Medicalrecord record ) {
+	public void updateMedicalrecord(@RequestBody Medicalrecord record ) throws IllegalRequestException{
 		logger.info("Put : /medicalrecord");
-		entities.updateMedicalrecord(record);
-		entities.showMedicalrecords();
+		entities.updateMedicalrecord(record); 
+		//entities.showMedicalrecords();
 	}
 	@DeleteMapping(value="/medicalrecord", params= {"firstName", "lastName"})
-	public void deleteMedicalrecord(@RequestParam String firstName,@RequestParam String lastName) {
+	public void deleteMedicalrecord(@RequestParam String firstName,@RequestParam String lastName) throws IllegalRequestException{
 		logger.info("Delete : /firestation");
 		entities.removeMedicalrecord(firstName, lastName);
-		entities.showMedicalrecords();
+		//entities.showMedicalrecords();
 	}
 
 	

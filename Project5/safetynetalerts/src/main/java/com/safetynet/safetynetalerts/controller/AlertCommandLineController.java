@@ -49,15 +49,6 @@ public class AlertCommandLineController implements CommandLineRunner{
 		}
 		linkedEntities.linkEntities();
 		System.out.println(linkedEntities);
-		/*Person p1 = new Person("firstname","lastname","1 St","Community","99999","123-123-123","community@email.com");
-		Firestation s1 = new Firestation("1 St",1);
-		Medicalrecord r1 = new Medicalrecord("firstname","lastname",LocalDate.now(),new ArrayList<String>(),new ArrayList<String>());
-
-		List<PersonMedicalrecordFirestation> entry = new ArrayList<PersonMedicalrecordFirestation>();
-		entry.add(new PersonMedicalrecordFirestation(p1,r1,s1));
-		entities.setLinkedEntities(entry);
-		System.out.println(entities.linkedToString());
-	*/
 	}
 
 }

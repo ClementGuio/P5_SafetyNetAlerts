@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts.unitTests;
+package com.safetynet.safetynetalerts.unit;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

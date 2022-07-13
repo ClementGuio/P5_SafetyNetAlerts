@@ -63,7 +63,7 @@ public class Person{
 		if (!firstName.equals(other.firstName)) return false;
 		if (!lastName.equals(other.lastName)) return false;
 		if (!address.equals(other.address)) return false;
-		if (city.equals(other.city)) return false;
+		if (!city.equals(other.city)) return false;
 		if (!zip.equals(other.zip)) return false;
 		if (!phone.equals(other.phone)) return false;
 		if (!email.equals(other.email)) return false;

@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts.unitTests;
+package com.safetynet.safetynetalerts.unit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,7 +22,8 @@ import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.model.PersonMedicalrecordFirestation;
 import com.safetynet.safetynetalerts.service.AlertBuilder;
 
-@RunWith(JUnitPlatform.class)
+
+
 public class AlertUnitTest {
 
 	@Mock
@@ -41,7 +42,7 @@ public class AlertUnitTest {
 		List<PersonMedicalrecordFirestation> entry = new ArrayList<PersonMedicalrecordFirestation>();
 		Person p1 = new Person("firstname","lastname","1 St","Community","99999","123-123-123","community@email.com");
 		Firestation s1 = new Firestation("1 St",1);
-		Medicalrecord r1 = new Medicalrecord("firstname","lastname",LocalDate.now(),new ArrayList<String>(),new ArrayList<String>());
+		//Medicalrecord r1 = new Medicalrecord("firstname","lastname",LocalDate.now(),new ArrayList<String>(),new ArrayList<String>());
 		entry.add(new PersonMedicalrecordFirestation(p1,r1,s1));
 		System.out.println(entry);
 		when(linkedEntities.getLinkedEntities()).thenReturn(entry);
