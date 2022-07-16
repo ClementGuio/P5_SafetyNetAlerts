@@ -15,7 +15,6 @@ public class AlertRestControllerTest {
 	
 	@Autowired
 	private MockMvc mvc;
-	// TODO : Préciser Exception (opt)
 	
 	@Test
 	public void testPersonInfo() throws Exception{

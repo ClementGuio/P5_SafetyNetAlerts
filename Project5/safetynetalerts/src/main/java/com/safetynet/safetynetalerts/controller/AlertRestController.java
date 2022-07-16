@@ -13,8 +13,6 @@ import com.safetynet.safetynetalerts.model.EntitiesContainer;
 import com.safetynet.safetynetalerts.service.AlertBuilder;
 import com.safetynet.safetynetalerts.service.EntitiesService;
 
-//TODO : renvoyer status code
-
 @RequestMapping("/v1")
 @RestController
 public class AlertRestController {
@@ -30,47 +28,45 @@ public class AlertRestController {
 	@Autowired
 	EntitiesContainer container;
 	
-	//ALERTS
-	//OK
 	@GetMapping(value = "/firestation", params = {"stationNumber"})
 	public JsonNode getFirestationAlert(@RequestParam int stationNumber){
-		logger.info("/firestation?stationNumber?"+stationNumber);
+		logger.trace("GET /v1/firestation?stationNumber="+stationNumber);
 		return alertBuilder.buildFirestationAlert(stationNumber);
 	}
-	//OK
+	
 	@GetMapping(value = "/childAlert", params = {"address"})
 	public JsonNode getChildAlert(@RequestParam String address){
-		logger.info("getChildAlert("+address+")");
+		logger.trace("GET /v1/childAlert?address="+address);
 		return alertBuilder.buildChildAlert(address);
 	}
-	//OK
+
 	@GetMapping(value = "/phoneAlert", params = {"firestation"})
 	public JsonNode getPhoneAlert(@RequestParam int firestation) throws Exception{
-		logger.info("/phoneAlert?firestation="+firestation);
+		logger.trace("GET /v1/phoneAlert?firestation="+firestation);
 		return alertBuilder.buildPhoneAlert(firestation);
 	}
 	
 	@GetMapping(value = "/fire", params = {"address"})
 	public JsonNode getFireAlert(String address){
-		logger.info("getFireAlert("+address+")");
+		logger.trace("GET /v1/fire?address="+address);
 		return alertBuilder.buildFireAlert(address);
 	}
 	
 	@GetMapping(value = "/flood/stations", params = {"stations"})
 	public JsonNode getFloodAlert(@RequestParam Integer... stations){
-		logger.info("getFloodAlert("+stations+")");
+		logger.trace("GET /v1/flood/stations?stations="+stations);
 		return alertBuilder.buildFloodAlert(stations);
 	}
 	
 	@GetMapping(value = "/personInfo", params = {"firstName","lastName"})
 	public JsonNode getPersonInfo(String firstName, String lastName){
-		logger.info("/person?firstName="+firstName+"&lastName="+lastName);
+		logger.trace("GET /v1/personInfo?firstName="+firstName+"&lastName="+lastName);
 		return alertBuilder.buildPersonInfo(firstName, lastName);
 	}
-	//OK
+
 	@GetMapping(value = "/communityEmail", params = {"city"})
 	public JsonNode getCommunityEmail(@RequestParam String city){
+		logger.trace("GET /v1/communityEmail?city="+city);
 		return alertBuilder.buildCommunityEmailAlert(city);
 	}
-	
 }

@@ -9,31 +9,27 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections4.ListUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.safetynet.safetynetalerts.model.EntitiesContainer;
 import com.safetynet.safetynetalerts.model.LinkedEntitiesContainer;
 import com.safetynet.safetynetalerts.model.PersonMedicalrecordFirestation;
 
 //TODO : création d'alerte :  alertBuilder.FireAlert.build()   DESIGN PATTERN BUILDER!!!!!
-
+//TODO : rename pour rendre le code plus compréhensible
 @Service
 public class AlertBuilder {
-	
-	private static final Logger logger = LoggerFactory.getLogger(AlertBuilder.class);
 	
 	@Autowired
 	LinkedEntitiesContainer entities;
 	
+	@Autowired
+	ObjectMapper mapper;
+	
 	public JsonNode buildPersonInfo(String firstName, String lastName) {
-		logger.info("buildPersonInfo("+firstName+","+lastName+")");
-		ObjectMapper mapper = new ObjectMapper();
     	ObjectNode node = mapper.createObjectNode();
     	List<PersonMedicalrecordFirestation> linkedEntities = entities.getLinkedEntities();
     	Set<Map<String,Object>> response = new HashSet<Map<String,Object>>();
@@ -56,8 +52,6 @@ public class AlertBuilder {
 	}
 	
 	public JsonNode buildPhoneAlert(int stationNumber){
-		logger.info("buildPhoneAlert("+stationNumber+")");
-		ObjectMapper mapper = new ObjectMapper();
     	ObjectNode node = mapper.createObjectNode();
 		List<PersonMedicalrecordFirestation> linkedEntities = entities.getLinkedEntities();
 		Set<String> phones = new HashSet<String>();
@@ -71,8 +65,6 @@ public class AlertBuilder {
 	}
 	
 	public JsonNode buildCommunityEmailAlert(String city) {
-		logger.info("buildCommunityEmailAlert("+city+")");
-		ObjectMapper mapper = new ObjectMapper();
     	ObjectNode node = mapper.createObjectNode();
 		List<PersonMedicalrecordFirestation> linkedEntities = entities.getLinkedEntities();
 		Set<String> emails = new HashSet<String>();
@@ -86,13 +78,10 @@ public class AlertBuilder {
 	}
 	
 	public JsonNode buildChildAlert(String address){
-		logger.info("buildChildAlert("+address+")");
-		ObjectMapper mapper = new ObjectMapper();
     	ObjectNode node = mapper.createObjectNode();
 		List<PersonMedicalrecordFirestation> linkedEntities = entities.getLinkedEntities();
 		List<PersonMedicalrecordFirestation> household = ListUtils.select(linkedEntities, p -> p.getAddress().equals(address));
 		List<PersonMedicalrecordFirestation> children = ListUtils.select(household, p -> p.isChild()==true);
-		//node.putArray("Children");
 		List<Map<String,String>> childrenMaps = new ArrayList<Map<String,String>>();
 		for (PersonMedicalrecordFirestation child : children) {
 			Map<String,String> childrenMap = new LinkedHashMap<String,String>();
@@ -117,8 +106,6 @@ public class AlertBuilder {
 	}
 	
 	public JsonNode buildFirestationAlert(int stationNumber) {
-		logger.info("buildFirestationAlert("+stationNumber+")");
-		ObjectMapper mapper = new ObjectMapper();
     	ObjectNode node = mapper.createObjectNode();
 		List<PersonMedicalrecordFirestation> linkedEntities = entities.getLinkedEntities();
 		List<Map<String,String>> response = new ArrayList<Map<String,String>>();
@@ -146,8 +133,6 @@ public class AlertBuilder {
 	}
 	
 	public JsonNode buildFireAlert(String address) {
-		logger.info("buildFireAlert("+address+")");
-		ObjectMapper mapper = new ObjectMapper();
     	ObjectNode node = mapper.createObjectNode();
 		List<PersonMedicalrecordFirestation> linkedEntities = entities.getLinkedEntities();
 		List<Map<String,Object>> response = new ArrayList<Map<String,Object>>();
@@ -173,8 +158,6 @@ public class AlertBuilder {
 	}
 	
 	public JsonNode buildFloodAlert(Integer[] stations) {
-		logger.info("buildFloodAlert("+stations+")");
-		ObjectMapper mapper = new ObjectMapper();
     	ObjectNode node = mapper.createObjectNode();
 		List<PersonMedicalrecordFirestation> linkedEntities = entities.getLinkedEntities();
 		Map<String,List<Map<String,Object>>> fieldAddress = new LinkedHashMap<String,List<Map<String,Object>>>();
@@ -185,7 +168,6 @@ public class AlertBuilder {
 						fieldAddress.put(person.getAddress(), new ArrayList<Map<String,Object>>());
 					}
 					Map<String,Object> fieldInfo = new LinkedHashMap<String,Object>();
-					//fieldInfo.put("address", person.getAddress());
 					fieldInfo.put("firstName", person.getFirstName());
 					fieldInfo.put("LastName", person.getLastName());
 					fieldInfo.put("phone", person.getPhone());
@@ -199,5 +181,4 @@ public class AlertBuilder {
 		node.set("address", mapper.convertValue(fieldAddress, JsonNode.class));
 		return node;
 	}
-	
 }

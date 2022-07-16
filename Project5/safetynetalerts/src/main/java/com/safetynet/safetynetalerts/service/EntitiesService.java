@@ -1,216 +1,129 @@
 package com.safetynet.safetynetalerts.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.cglib.core.CollectionUtils;
-import org.springframework.http.HttpStatus;
-import org.apache.commons.collections4.ListUtils;
-import org.apache.commons.collections4.Predicate;
-import org.apache.commons.collections4.PredicateUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-import com.safetynet.safetynetalerts.controller.AlertCommandLineController;
 import com.safetynet.safetynetalerts.exception.IllegalRequestException;
+import com.safetynet.safetynetalerts.exception.MissingEntitiesException;
 import com.safetynet.safetynetalerts.model.EntitiesContainer;
 import com.safetynet.safetynetalerts.model.Firestation;
+import com.safetynet.safetynetalerts.model.LinkedEntitiesContainer;
 import com.safetynet.safetynetalerts.model.Medicalrecord;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.model.PersonMedicalrecordFirestation;
-//TODO: créer EntityLinker
-//TODO : factoriser getPerson(fistName,lastName)
-//TODO : utiliser beanUtils.copyproperties pour set(get())
+
 @Service
 public class EntitiesService {
 
 	private static final Logger logger = LoggerFactory.getLogger(EntitiesService.class);
 	
 	@Autowired
-	EntitiesContainer entities;
+	EntitiesContainer container;
 	
-	
+	@Autowired
+	LinkedEntitiesContainer linkedEntities;
+	//TODO : delete show..
 	public void showEntities() {
 		logger.info("showEntities()");
-		System.out.println(entities.toString());
+		System.out.println(container.toString());
 	}
 	
 	public void showPersons() {
-		System.out.println(entities.getPersons());
+		System.out.println(container.getPersons());
 	}
-	
+
 	public void showMedicalrecords() {
-		System.out.println(entities.getMedicalrecords());
+		System.out.println(container.getMedicalrecords());
 	}
 	
 	public void showFirestations() {
-		System.out.println(entities.getFirestations());
+		System.out.println(container.getFirestations());
 	}
 	
-//CRUD	
 	public void removeMedicalrecord(String firstName, String lastName) throws IllegalRequestException {
-		Medicalrecord recordToRemove = null;
-		Iterator<Medicalrecord> iter = entities.getMedicalrecords().iterator();
-		boolean isFound = false;
-		
-		while (iter.hasNext() && !isFound) {
-			Medicalrecord record = iter.next();
-			if (record.getFirstName().equals(firstName) && record.getLastName().equals(lastName)) {
-				recordToRemove = record;
-				isFound = true;
-			}
-		}
-		
-		if (!isFound) {
+		Medicalrecord recordToRemove = container.getMedicalrecordOf(firstName,lastName);
+		if (recordToRemove == null) {
+			logger.error("Missing Medicalrecord -> firstName:"+firstName+", lastName:"+lastName);
 			throw new IllegalRequestException("Submitted Medicalrecord doesn't match with any existing Medicalrecord.");
 		}else {
-			entities.getMedicalrecords().remove(recordToRemove);
+			container.getMedicalrecords().remove(recordToRemove);
 		}
 	}
 
 	public void updateMedicalrecord(Medicalrecord record) throws IllegalRequestException{
-		String firstName = record.getFirstName();
-		String lastName = record.getLastName();
-		
-		Iterator<Medicalrecord> iter = entities.getMedicalrecords().iterator();
-		boolean isFound = false;
-		while (iter.hasNext() && !isFound) {
-			Medicalrecord mr = iter.next();
-			if (mr.getFirstName().equals(firstName) && mr.getLastName().equals(lastName)) {
-				mr.setBirthdate(record.getBirthdate());
-				mr.setMedications(record.getMedications());
-				mr.setAllergies(record.getAllergies());
-				isFound = true;
-			}
-		}
-		if (!isFound) {
+		Medicalrecord recordToUpdate = container.getMedicalrecordOf(record.getFirstName(), record.getLastName());
+		if (recordToUpdate == null) {
+			logger.error("Missing Medicalrecord -> "+record);
 			throw new IllegalRequestException("Submitted Medicalrecord doesn't match with any existing Medicalrecord.");
+		}else {
+			recordToUpdate.setBirthdate(record.getBirthdate());
+			recordToUpdate.setMedications(record.getMedications());
+			recordToUpdate.setAllergies(record.getAllergies());
 		}
 	}
 
 	public void addMedicalrecord(Medicalrecord record) {
-		entities.getMedicalrecords().add(record);
+		container.getMedicalrecords().add(record);
 	}
 
-	public void removeFirestation(String address, int stationNumber) throws IllegalRequestException{
-		logger.info("removeFirestation : "+address+", "+stationNumber);
-		Firestation stationToRemove = null;
-		Iterator<Firestation> iter = entities.getFirestations().iterator();
-		boolean isFound = false;
-		
-		while (iter.hasNext() && !isFound) {
-			Firestation station = iter.next();
-			if (station.getAddress().equals(address) && station.getStation()==stationNumber) {
-				stationToRemove = station;
-				isFound = true;
-			}
-		}
-		
-		if (!isFound) {
+	public void removeFirestation(String address) throws IllegalRequestException{
+		Firestation stationToRemove = container.getFirestationOf(address);
+		if (stationToRemove == null) {
+			logger.error("Missing Firestation -> address:"+address);
 			throw new IllegalRequestException("Submitted Medicalrecord doesn't match with any existing Medicalrecord.");
 		}else {
-			entities.getFirestations().remove(stationToRemove);
+			container.getFirestations().remove(stationToRemove);
 		}
 	}
 
 	public void updateFirestation(Firestation station) throws IllegalRequestException{
-		logger.info("updateFirestation : "+station);
-		String address = station.getAddress();
-		
-		Iterator<Firestation> iter = entities.getFirestations().iterator();
-		boolean isFound = false;
-		while (iter.hasNext() && !isFound) {
-			Firestation fs = iter.next();
-			if (fs.getAddress().equals(address)) {
-				fs.setStation(station.getStation());
-				isFound = true;
-			}
-		}
-		if (!isFound) {
+		Firestation stationToUpdate = container.getFirestationOf(station.getAddress());
+		if (stationToUpdate == null) {
+			logger.error("Missing Firestation -> "+station);
 			throw new IllegalRequestException("Submitted Firestation doesn't match with any existing Firestation.");
+		}else {
+			stationToUpdate.setStation(station.getStation());
 		}
 	}
 
 	public void addFirestation(Firestation station) {
-		logger.info("addFirestation : "+station);
-		entities.getFirestations().add(station);
-		
+		container.getFirestations().add(station);
 	}
 
 	public void removePerson(String firstName, String lastName) throws IllegalRequestException {
-		Person personToRemove = null;
-		Iterator<Person> iter = entities.getPersons().iterator();
-		boolean isFound = false;
-		
-		while (iter.hasNext() && !isFound) {
-			Person person = iter.next();
-			if (person.getFirstName().equals(firstName) && person.getLastName().equals(lastName)) {
-				personToRemove = person;
-				isFound = true;
-			}
-		}
-		
-		if (!isFound) {
+		Person personToRemove = container.getPerson(firstName, lastName);
+		if (personToRemove == null) {
+			logger.error("Missing Person -> firstName:"+firstName+", lastName:"+lastName);
 			throw new IllegalRequestException("Submitted Medicalrecord doesn't match with any existing Medicalrecord.");
 		}else {
-			entities.getPersons().remove(personToRemove);
+			container.getPersons().remove(personToRemove);
 		}
 	}
 
 	public void updatePerson(Person person) throws IllegalRequestException{
-		String firstName = person.getFirstName();
-		String lastName = person.getLastName();
-		
-		Iterator<Person> iter = entities.getPersons().iterator();
-		boolean isFound = false;
-		while (iter.hasNext() && !isFound) {
-			Person currentPerson = iter.next();
-			if (currentPerson.getFirstName().equals(firstName) && currentPerson.getLastName().equals(lastName)) {
-				currentPerson.setAddress(person.getAddress());
-				currentPerson.setCity(person.getCity());
-				currentPerson.setEmail(person.getEmail());
-				currentPerson.setPhone(person.getPhone());
-				currentPerson.setZip(person.getZip());
-				isFound = true;
-			}
-		}
-		if (!isFound) {
+		Person personToUpdate = container.getPerson(person.getFirstName(), person.getLastName());
+		if (personToUpdate == null) {
+			logger.error("Missing Person -> "+person);
 			throw new IllegalRequestException("Submitted Person doesn't match with any existing Person.");
+		}else {
+			personToUpdate.setAddress(person.getAddress());
+			personToUpdate.setCity(person.getCity());
+			personToUpdate.setEmail(person.getEmail());
+			personToUpdate.setPhone(person.getPhone());
+			personToUpdate.setZip(person.getZip());
 		}
-		
-		/*
-		for (Person p : entities.getPersons()) {
-			if (p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)) {
-				p.setAddress(person.getAddress());
-				p.setCity(person.getCity());
-				p.setEmail(person.getEmail());
-				p.setPhone(person.getPhone());
-				p.setZip(person.getZip());
-				return;
-			}
-		}
-		*/
-	}
-//...................................................................
-	public void addPerson(Person person) {
-		entities.getPersons().add(person);
 	}
 
-	public String getAddressOf(String firstName, String lastName) {
-		for (Person person : entities.getPersons()) {
-			if (person.getFirstName().equals(firstName) && person.getLastName().equals(lastName)) {
-				return person.getAddress();
-			}
+	public void addPerson(Person person) throws MissingEntitiesException{
+		Medicalrecord record = container.getMedicalrecordOf(person);
+		Firestation station = container.getFirestationOf(person);
+		if (record==null || station==null) {
+			logger.error("Missing entities -> Medicalrecord:"+(record==null)+", Firestation:"+(station==null));
+			throw new MissingEntitiesException("There is missing entity. To add a Person, there must be a Medicalrecord and a Firestation related to it. Please add them before adding Person.");
+		}else {
+			container.getPersons().add(person);
+			linkedEntities.getLinkedEntities().add(new PersonMedicalrecordFirestation(person,container.getMedicalrecordOf(person),container.getFirestationOf(person)));
 		}
-		return null;
 	}
-	
 }

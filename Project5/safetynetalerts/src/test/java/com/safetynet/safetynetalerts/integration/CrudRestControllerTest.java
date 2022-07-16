@@ -31,14 +31,75 @@ public class CrudRestControllerTest {
 	@Autowired
 	EntitiesContainer container;
 	
+	//TODO : test format et type de données (date, int)
+	
+	@Test
+	public void testGetPerson() throws Exception{
+		
+		mvc.perform( MockMvcRequestBuilders 
+				.get("/v1/person?firstName={fistName}&lastName={lastName}","CrudRestControllerTest","Get")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.content().json("{ \"firstName\":\"CrudRestControllerTest\",\"lastName\":\"Get\",\"address\":\"testGet\","
+						+ "\"city\":\"Ville\",\"zip\":\"12345\",\"phone\":\"111-111-111\",\"email\":\"address@email.com\" }"));
+	}
+	
+	@Test
+	public void testGetUnknownPerson() throws Exception{
+		
+		mvc.perform( MockMvcRequestBuilders 
+				.get("/v1/person?firstName={fistName}&lastName={lastName}","Unknown","Person")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isConflict());
+	}
+	
+	@Test
+	public void testGetFirestation() throws Exception{
+		
+		mvc.perform( MockMvcRequestBuilders 
+				.get("/v1/firestation?address={address}","testGet")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.content().json("{\"address\":\"testGet\",\"station\":"+100+"}"));
+	}
+	
+	@Test
+	public void testGetUnknwonFirestation() throws Exception{
+		
+		mvc.perform( MockMvcRequestBuilders 
+				.get("/v1/firestation?address={address}","unknown")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isConflict());
+	}
+	
+	@Test
+	public void testGetMedicalrecord() throws Exception{
+		
+		mvc.perform( MockMvcRequestBuilders 
+				.get("/v1/medicalrecord?firstName={fistName}&lastName={lastName}","CrudRestControllerTest","Get")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.content().json("{ \"firstName\":\"CrudRestControllerTest\",\"lastName\":\"Get\","
+						+ "\"birthdate\":\"01/01/1999\",\"medications\":[],\"allergies\":[] }"));
+	}
+	
+	@Test
+	public void testGetUnknownMedicalrecord() throws Exception{
+		
+		mvc.perform( MockMvcRequestBuilders 
+				.get("/v1/medicalrecord?firstName={fistName}&lastName={lastName}","Unknwon","Person")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isConflict());
+	}
 	
 	//POST
+	
 	@Test
 	public void testPostPerson() throws Exception{
 		Person person = new Person();
 		person.setFirstName("CrudRestControllerTest");
 		person.setLastName("PostPerson");
-		person.setAddress("1 address");
+		person.setAddress("testPostPerson");
 		person.setCity("Town");
 		person.setEmail("address@email.com");
 		person.setPhone("111-111-111");
@@ -47,13 +108,26 @@ public class CrudRestControllerTest {
 		mvc.perform( MockMvcRequestBuilders 
 				.post("/v1/person")
 				.contentType(MediaType.APPLICATION_JSON)
-			    .content("{ \"firstName\":\"CrudRestControllerTest\", \"lastName\":\"PostPerson\", \"address\":\"1 address\", \"city\":\"Town\", "
-			    		+ "\"zip\":\"12345\", \"phone\":\"111-111-111\", \"email\":\"address@email.com\" }")
+			    .content("{ \"firstName\":\"CrudRestControllerTest\", \"lastName\":\"PostPerson\", \"address\":\"testPostPerson\", "
+			    		+ "\"city\":\"Town\",\"zip\":\"12345\", \"phone\":\"111-111-111\", \"email\":\"address@email.com\" }")
 			    .accept(MediaType.APPLICATION_JSON))
 			    .andExpect(MockMvcResultMatchers.status().isOk());
 		
 		assertTrue(container.getPersons().contains(person));
 	}
+	
+	@Test
+	public void testPostPersonWithMissingEntities() throws Exception{
+	
+		mvc.perform( MockMvcRequestBuilders 
+				.post("/v1/person")
+				.contentType(MediaType.APPLICATION_JSON)
+			    .content("{ \"firstName\":\"CrudRestControllerTest\", \"lastName\":\"PostPersonWithMissingEntities\", \"address\":\"new address\", "
+			    		+ "\"city\":\"Town\", \"zip\":\"12345\", \"phone\":\"111-111-111\", \"email\":\"address@email.com\" }")
+			    .accept(MediaType.APPLICATION_JSON))
+			    .andExpect(MockMvcResultMatchers.status().isConflict());
+	}
+	
 	@Test
 	public void testPostMedicalrecord() throws Exception{
 		Medicalrecord record = new Medicalrecord();
@@ -277,5 +351,4 @@ public class CrudRestControllerTest {
 				.delete("/v1/medicalrecord?firstName=CrudRestControllerTest&lastName=Unknwon"))
 			    .andExpect(MockMvcResultMatchers.status().isConflict());
 	}
-	
 }

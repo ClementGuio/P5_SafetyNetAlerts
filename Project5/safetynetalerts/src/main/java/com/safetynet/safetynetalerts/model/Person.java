@@ -1,14 +1,7 @@
 package com.safetynet.safetynetalerts.model;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
 import javax.annotation.Generated;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -33,25 +26,15 @@ public class Person{
 	@JsonProperty("email")
 	private String email;
 	
-	@JsonIgnore
-	private Map<String,Object> additionalProperties = new HashMap<String,Object>();
-/*	
-	public Person(String firstName, String lastName, String address, String city, String zip, String phone,
-			String email) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.address = address;
-		this.city = city;
-		this.zip = zip;
-		this.phone = phone;
-		this.email = email;
-		this.additionalProperties = additionalProperties;
-	}
-	*/
-	
 	@Override
 	public String toString() {
-		return firstName+" "+lastName+"\nAddress : "+address+"\nCity : "+city+" "+zip+"\nPhone : "+phone+"\nEmail : "+email+"\n";
+		return "{\"firstName\":\""+firstName+
+				"\"firstName\":\""+lastName+
+				"\"address\":\""+address+
+				"\"city\":\""+city+
+				"\"zip\":\""+zip+
+				"\"phone\":\""+phone+
+				"\"email\":\""+email+"\"}";
 	}
 	
 	@Override
@@ -139,15 +122,4 @@ public class Person{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	@JsonAnyGetter
-	public Map<String,Object> getAdditionalProperties(){
-		return this.additionalProperties;
-	}
-	
-	@JsonAnySetter
-	public void setAdditionalProperties(String name, Object value) {
-		this.additionalProperties.put(name, value);
-	}
-	
 }

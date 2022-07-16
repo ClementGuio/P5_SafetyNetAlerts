@@ -1,17 +1,10 @@
 package com.safetynet.safetynetalerts.model;
 
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
 import javax.annotation.Generated;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -35,18 +28,16 @@ public class Medicalrecord{
 	private List<String> medications = null; 
 	@JsonProperty("allergies")
 	private List<String> allergies = null;
-	@JsonIgnore
-	private Map<String,Object> additionalProperties = new HashMap<String,Object>();
 	
-	/*
-	public Medicalrecord(String firstName, String lastName, LocalDate birthdate, List<String> medications,
-			List<String> allergies) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.birthdate = birthdate;
-		this.medications = medications;
-		this.allergies = allergies;
-	}*/
+	@Override
+	public String toString() {
+		return "{\"firstName\":\""+firstName+
+				"\"firstName\":\""+lastName+
+				"\"bithdate\":\""+birthdate+
+				"\"medications\":\""+medications+
+				"\"allergies\":\""+allergies+"\"}";
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this==obj) return true;
@@ -65,11 +56,6 @@ public class Medicalrecord{
 			if (!allergies.get(i).equals(other.allergies.get(i))) return false;
 		}
 		return true;
-	}
-	
-	@Override
-	public String toString() {
-		return firstName+" "+lastName+"\nbirthdate : "+birthdate+"\nmedications : "+medications+"\nallergies : "+allergies+"\n";
 	}
 	
 	@JsonProperty("firstName")
@@ -121,15 +107,4 @@ public class Medicalrecord{
 	public void setAllergies(List<String> allergies) {
 		this.allergies = allergies;
 	}
-	
-	@JsonAnyGetter
-	public Map<String,Object> getAdditionalProperties(){
-		return this.additionalProperties;
-	}
-	
-	@JsonAnySetter
-	public void setAdditionalProperties(String name, Object value) {
-		this.additionalProperties.put(name, value);
-	}
-
 }

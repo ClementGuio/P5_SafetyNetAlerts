@@ -13,7 +13,8 @@
 			{ "firstName":"Alert","lastName":"CommunityEmail2","address":"2 Av.","city":"Community","zip":"99999","phone":"450-123","email":"community2@email.com" },
 			{ "firstName":"Person","lastName":"Info","address":"4 St","city":"Town","zip":"99999","phone":"000-000","email":"personInfo@email.com" },
 			{ "firstName":"CrudRestControllerTest","lastName":"Put","address":"testPut","city":"Ville","zip":"12345","phone":"111-111-111","email":"address@email.com" },
-			{ "firstName":"CrudRestControllerTest","lastName":"Delete","address":"testDelete","city":"Ville","zip":"12345","phone":"111-111-111","email":"address@email.com" }
+			{ "firstName":"CrudRestControllerTest","lastName":"Delete","address":"testDelete","city":"Ville","zip":"12345","phone":"111-111-111","email":"address@email.com" },
+			{ "firstName":"CrudRestControllerTest","lastName":"Get","address":"testGet","city":"Ville","zip":"12345","phone":"111-111-111","email":"address@email.com" }
 		],
 	"firestations" : [
 			{"address":"1 St","station":"1"},
@@ -23,7 +24,9 @@
 			{"address":"2 Av.","station":"4"},
 			{"address":"4 St","station":"5"},
 			{"address":"testPut","station":"10"},
-			{"address":"testDelete","station":"11"}
+			{"address":"testDelete","station":"11"},
+			{"address":"testPostPerson","station":"100"},
+			{"address":"testGet","station":"100"}
 			
 			
 		],
@@ -41,7 +44,10 @@
 			{ "firstName":"Alert","lastName":"CommunityEmail2","birthdate":"01/01/1999","medications":[], "allergies":[]},
 			{ "firstName":"Person","lastName":"Info","birthdate":"01/01/1999","medications":[],"allergies":[] },
 			{ "firstName":"CrudRestControllerTest","lastName":"Put","birthdate":"01/01/1999","medications":[],"allergies":[] },
-			{ "firstName":"CrudRestControllerTest","lastName":"Delete","birthdate":"01/01/1999","medications":[],"allergies":[] }
+			{ "firstName":"CrudRestControllerTest","lastName":"Delete","birthdate":"01/01/1999","medications":[],"allergies":[] },
+			{ "firstName":"CrudRestControllerTest","lastName":"PostPerson","birthdate":"01/01/1999","medications":[],"allergies":[] },
+			{ "firstName":"CrudRestControllerTest","lastName":"Get","birthdate":"01/01/1999","medications":[],"allergies":[] }
+			
 		]
 }
 		 

@@ -1,43 +1,27 @@
 package com.safetynet.safetynetalerts.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.Generated;
-import javax.annotation.PostConstruct;
-
 import org.apache.commons.collections4.IterableUtils;
-import org.apache.commons.collections4.ListUtils;
-import org.apache.commons.collections4.Predicate;
-import org.apache.commons.collections4.PredicateUtils;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-//TODO : rename bind/bound -> link/linked
-//TODO : séparer linkedEntities de entitiesContainer
-
 
 @Component
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"persons","firestations","medicalrecords"})
 @Generated("jsonschema2pojo")
 public class EntitiesContainer{
-	
+	//TODO : comprendre pourquoi static est nécessaire
 	@JsonProperty("persons")
 	private static List<Person> persons = new ArrayList<Person>();
 	@JsonProperty("firestations")
 	private static List<Firestation> firestations = new ArrayList<Firestation>();
 	@JsonProperty("medicalrecords")
 	private static List<Medicalrecord> medicalrecords = new ArrayList<Medicalrecord>();
-	@JsonIgnore
-	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	
 	@Override
 	public String toString() {
@@ -56,14 +40,26 @@ public class EntitiesContainer{
 		return str;
 	}
 	
+	public Person getPerson(String firstName, String lastName) {
+		return IterableUtils.find(persons, p -> ((Person)p).getFirstName().equals(firstName) && p.getLastName().equals(lastName));
+	}
+	
 	public Firestation getFirestationOf(Person person) {
 		return IterableUtils.find(firestations, f -> f.getAddress().equals(person.getAddress()));
 	}
 	
+	public Firestation getFirestationOf(String address) {
+		return IterableUtils.find(firestations, f -> f.getAddress().equals(address));
+	}
+	
 	public Medicalrecord getMedicalrecordOf(Person person) {
-		Predicate<Medicalrecord> firstNamePredicate = m -> ((Medicalrecord)m).getFirstName().equals(person.getFirstName());
-		Predicate<Medicalrecord> lastNamePredicate = m -> ((Medicalrecord)m).getLastName().equals(person.getLastName());
-		return IterableUtils.find(medicalrecords, PredicateUtils.andPredicate(firstNamePredicate, lastNamePredicate));
+		return IterableUtils.find(medicalrecords, r -> ((Medicalrecord)r).getFirstName().equals(person.getFirstName()) 
+				&& r.getLastName().equals(person.getLastName()));
+	}
+	
+	public Medicalrecord getMedicalrecordOf(String firstName, String lastName) {
+		return IterableUtils.find(medicalrecords, r -> ((Medicalrecord)r).getFirstName().equals(firstName) 
+				&& r.getLastName().equals(lastName));
 	}
 	
 	@JsonProperty("persons")
@@ -95,15 +91,4 @@ public class EntitiesContainer{
 	public void setMedicalrecords(List<Medicalrecord> medicalrecords) {
 		this.medicalrecords = medicalrecords;
 	}
-
-	@JsonAnyGetter
-	public Map<String, Object> getAdditionalProperties() {
-		return this.additionalProperties;
-	}
-
-	@JsonAnySetter
-	public void setAdditionalProperty(String name, Object value) {
-		this.additionalProperties.put(name, value);
-	}
-
 }
