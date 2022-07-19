@@ -18,8 +18,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.safetynet.safetynetalerts.model.LinkedEntitiesContainer;
 import com.safetynet.safetynetalerts.model.PersonMedicalrecordFirestation;
 
-//TODO : création d'alerte :  alertBuilder.FireAlert.build()   DESIGN PATTERN BUILDER!!!!!
-//TODO : rename pour rendre le code plus compréhensible
 @Service
 public class AlertBuilder {
 	

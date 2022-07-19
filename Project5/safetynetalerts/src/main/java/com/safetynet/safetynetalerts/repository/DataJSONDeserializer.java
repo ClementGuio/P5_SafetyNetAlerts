@@ -17,14 +17,14 @@ public class DataJSONDeserializer {
 	private ObjectMapper objectMapper = new ObjectMapper(); 
 	
 	@Autowired
-	private EntitiesContainer data;
+	private EntitiesContainer container;
 	
 	public void readAndStore(URL src) throws IOException, StreamReadException, DatabindException {
-		data = objectMapper.readValue(src, EntitiesContainer.class);
+		container = objectMapper.readValue(src, EntitiesContainer.class);
 	}
 
 	public void readAndStore(File src) throws IOException, StreamReadException, DatabindException {
-		data = objectMapper.readValue(src, EntitiesContainer.class);
+		container = objectMapper.readValue(src, EntitiesContainer.class);
 	}
 
 }

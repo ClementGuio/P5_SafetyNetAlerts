@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.safetynetalerts.model.EntitiesContainer;
 import com.safetynet.safetynetalerts.model.Firestation;
 import com.safetynet.safetynetalerts.model.Medicalrecord;
@@ -30,8 +29,6 @@ public class CrudRestControllerTest {
 	
 	@Autowired
 	EntitiesContainer container;
-	
-	//TODO : test format et type de données (date, int)
 	
 	@Test
 	public void testGetPerson() throws Exception{
@@ -129,6 +126,18 @@ public class CrudRestControllerTest {
 	}
 	
 	@Test
+	public void testPostPersonWithNullValues() throws Exception{
+	
+		mvc.perform( MockMvcRequestBuilders 
+				.post("/v1/person")
+				.contentType(MediaType.APPLICATION_JSON)
+			    .content("{ \"firstName\":\"\", \"lastName\":\"\", \"address\":\"new address\", "
+			    		+ "\"city\":\"Town\", \"zip\":\"12345\", \"phone\":\"111-111-111\", \"email\":\"address@email.com\" }")
+			    .accept(MediaType.APPLICATION_JSON))
+			    .andExpect(MockMvcResultMatchers.status().isConflict());
+	}
+	
+	@Test
 	public void testPostMedicalrecord() throws Exception{
 		Medicalrecord record = new Medicalrecord();
 		record.setFirstname("CrudRestControllerTest");
@@ -148,6 +157,17 @@ public class CrudRestControllerTest {
 	}
 	
 	@Test
+	public void testPostMedicalrecordWithBadFormatOfDate() throws Exception{
+		
+		mvc.perform( MockMvcRequestBuilders 
+				.post("/v1/medicalrecord")
+				.contentType(MediaType.APPLICATION_JSON)
+			    .content("{ \"firstName\":\"CrudRestControllerTest\", \"lastName\":\"PostMedicalrecord\", \"birthdate\":\"1990/01/01\", \"medications\":[], \"allergies\":[] }")
+			    .accept(MediaType.APPLICATION_JSON))
+			    .andExpect(MockMvcResultMatchers.status().isBadRequest());
+	}
+	
+	@Test
 	public void testPostFirestation() throws Exception{
 		Firestation station = new Firestation();
 		station.setAddress("testPostFirestation");
@@ -163,8 +183,18 @@ public class CrudRestControllerTest {
 		assertTrue(container.getFirestations().contains(station));			    
 	}
 	
-	//PUT
+	@Test
+	public void testPostFirestationWithBadTypeOfStationNumber() throws Exception{
+		
+		mvc.perform( MockMvcRequestBuilders 
+				.post("/v1/firestation")
+				.contentType(MediaType.APPLICATION_JSON)
+			    .content("{\"address\":\"testPostFirestation\",\"station\":\"a\"}")
+			    .accept(MediaType.APPLICATION_JSON))
+			    .andExpect(MockMvcResultMatchers.status().isBadRequest());
+	}
 	
+	//PUT
 	@Test
 	public void testPutPerson() throws Exception{
 		Person person = new Person();

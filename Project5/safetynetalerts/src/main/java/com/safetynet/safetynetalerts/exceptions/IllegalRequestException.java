@@ -1,8 +1,8 @@
-package com.safetynet.safetynetalerts.exception;
+package com.safetynet.safetynetalerts.exceptions;
 
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpStatus;
-//TODO : trouver comment afficher reason
+
 @ResponseStatus(code = HttpStatus.CONFLICT)
 public class IllegalRequestException extends Exception {
 

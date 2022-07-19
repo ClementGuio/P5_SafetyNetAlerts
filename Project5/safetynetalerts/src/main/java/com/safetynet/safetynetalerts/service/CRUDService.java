@@ -4,8 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.safetynet.safetynetalerts.exception.IllegalRequestException;
-import com.safetynet.safetynetalerts.exception.MissingEntitiesException;
+
+import com.safetynet.safetynetalerts.exceptions.IllegalRequestException;
+import com.safetynet.safetynetalerts.exceptions.MissingEntitiesException;
+import com.safetynet.safetynetalerts.interfaces.ICrudService;
 import com.safetynet.safetynetalerts.model.EntitiesContainer;
 import com.safetynet.safetynetalerts.model.Firestation;
 import com.safetynet.safetynetalerts.model.LinkedEntitiesContainer;
@@ -14,32 +16,15 @@ import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.model.PersonMedicalrecordFirestation;
 
 @Service
-public class EntitiesService {
+public class CRUDService implements ICrudService {
 
-	private static final Logger logger = LoggerFactory.getLogger(EntitiesService.class);
+	private static final Logger logger = LoggerFactory.getLogger(CRUDService.class);
 	
 	@Autowired
 	EntitiesContainer container;
 	
 	@Autowired
 	LinkedEntitiesContainer linkedEntities;
-	//TODO : delete show..
-	public void showEntities() {
-		logger.info("showEntities()");
-		System.out.println(container.toString());
-	}
-	
-	public void showPersons() {
-		System.out.println(container.getPersons());
-	}
-
-	public void showMedicalrecords() {
-		System.out.println(container.getMedicalrecords());
-	}
-	
-	public void showFirestations() {
-		System.out.println(container.getFirestations());
-	}
 	
 	public void removeMedicalrecord(String firstName, String lastName) throws IllegalRequestException {
 		Medicalrecord recordToRemove = container.getMedicalrecordOf(firstName,lastName);

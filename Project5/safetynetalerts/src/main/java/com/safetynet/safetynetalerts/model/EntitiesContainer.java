@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({"persons","firestations","medicalrecords"})
 @Generated("jsonschema2pojo")
 public class EntitiesContainer{
-	//TODO : comprendre pourquoi static est nécessaire
+
 	@JsonProperty("persons")
 	private static List<Person> persons = new ArrayList<Person>();
 	@JsonProperty("firestations")

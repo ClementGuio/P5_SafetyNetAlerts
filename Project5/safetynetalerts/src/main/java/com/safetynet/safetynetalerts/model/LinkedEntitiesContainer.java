@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.safetynet.safetynetalerts.exception.MissingEntitiesException;
-import com.safetynet.safetynetalerts.service.EntitiesService;
+import com.safetynet.safetynetalerts.exceptions.MissingEntitiesException;
+import com.safetynet.safetynetalerts.interfaces.EntityLinker;
 
 @Component
 public class LinkedEntitiesContainer implements EntityLinker{
@@ -37,9 +37,9 @@ public class LinkedEntitiesContainer implements EntityLinker{
 	public List<PersonMedicalrecordFirestation> getLinkedEntities(){
 		return linkedEntities;
 	}
-	//TODO : TEST linker
+
 	public void linkEntities() throws MissingEntitiesException{
-		logger.info("linkEntities() started!");
+		logger.info("linkEntities() starts!");
 		List<PersonMedicalrecordFirestation> linkedEntities = new ArrayList<PersonMedicalrecordFirestation>(); 
 		for (Person person : entities.getPersons()) {
 			Medicalrecord record = entities.getMedicalrecordOf(person);

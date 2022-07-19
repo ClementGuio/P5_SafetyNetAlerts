@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.safetynet.safetynetalerts.model.Firestation;
