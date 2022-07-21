@@ -44,7 +44,7 @@ public class AlertBuilder {
     			field.put("allergies", person.getAllergies());
     			response.add(field);
     		}
-    	}
+    	} 
     	node.set("personInfo", mapper.convertValue(response, JsonNode.class));
     	return node;
 	}

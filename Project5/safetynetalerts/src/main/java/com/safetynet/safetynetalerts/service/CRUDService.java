@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.safetynet.safetynetalerts.exceptions.IllegalRequestException;
 import com.safetynet.safetynetalerts.exceptions.MissingEntitiesException;
-import com.safetynet.safetynetalerts.interfaces.ICrudService;
+import com.safetynet.safetynetalerts.interfaces.ICRUDService;
 import com.safetynet.safetynetalerts.model.EntitiesContainer;
 import com.safetynet.safetynetalerts.model.Firestation;
 import com.safetynet.safetynetalerts.model.LinkedEntitiesContainer;
@@ -16,7 +16,7 @@ import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.model.PersonMedicalrecordFirestation;
 
 @Service
-public class CRUDService implements ICrudService {
+public class CRUDService implements ICRUDService {
 
 	private static final Logger logger = LoggerFactory.getLogger(CRUDService.class);
 	
@@ -26,6 +26,7 @@ public class CRUDService implements ICrudService {
 	@Autowired
 	LinkedEntitiesContainer linkedEntities;
 	
+	@Override
 	public void removeMedicalrecord(String firstName, String lastName) throws IllegalRequestException {
 		Medicalrecord recordToRemove = container.getMedicalrecordOf(firstName,lastName);
 		if (recordToRemove == null) {
@@ -34,8 +35,9 @@ public class CRUDService implements ICrudService {
 		}else {
 			container.getMedicalrecords().remove(recordToRemove);
 		}
-	}
+	} 
 
+	@Override
 	public void updateMedicalrecord(Medicalrecord record) throws IllegalRequestException{
 		Medicalrecord recordToUpdate = container.getMedicalrecordOf(record.getFirstName(), record.getLastName());
 		if (recordToUpdate == null) {
@@ -48,10 +50,12 @@ public class CRUDService implements ICrudService {
 		}
 	}
 
+	@Override
 	public void addMedicalrecord(Medicalrecord record) {
 		container.getMedicalrecords().add(record);
 	}
 
+	@Override
 	public void removeFirestation(String address) throws IllegalRequestException{
 		Firestation stationToRemove = container.getFirestationOf(address);
 		if (stationToRemove == null) {
@@ -62,6 +66,7 @@ public class CRUDService implements ICrudService {
 		}
 	}
 
+	@Override
 	public void updateFirestation(Firestation station) throws IllegalRequestException{
 		Firestation stationToUpdate = container.getFirestationOf(station.getAddress());
 		if (stationToUpdate == null) {
@@ -72,10 +77,12 @@ public class CRUDService implements ICrudService {
 		}
 	}
 
+	@Override
 	public void addFirestation(Firestation station) {
 		container.getFirestations().add(station);
 	}
 
+	@Override
 	public void removePerson(String firstName, String lastName) throws IllegalRequestException {
 		Person personToRemove = container.getPerson(firstName, lastName);
 		if (personToRemove == null) {
@@ -86,6 +93,7 @@ public class CRUDService implements ICrudService {
 		}
 	}
 
+	@Override
 	public void updatePerson(Person person) throws IllegalRequestException{
 		Person personToUpdate = container.getPerson(person.getFirstName(), person.getLastName());
 		if (personToUpdate == null) {
@@ -100,6 +108,7 @@ public class CRUDService implements ICrudService {
 		}
 	}
 
+	@Override
 	public void addPerson(Person person) throws MissingEntitiesException{
 		Medicalrecord record = container.getMedicalrecordOf(person);
 		Firestation station = container.getFirestationOf(person);

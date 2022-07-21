@@ -15,11 +15,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.safetynetalerts.exceptions.IllegalRequestException;
 import com.safetynet.safetynetalerts.exceptions.MissingEntitiesException;
+import com.safetynet.safetynetalerts.interfaces.ICRUDService;
 import com.safetynet.safetynetalerts.model.EntitiesContainer;
 import com.safetynet.safetynetalerts.model.Firestation;
 import com.safetynet.safetynetalerts.model.Medicalrecord;
 import com.safetynet.safetynetalerts.model.Person;
-import com.safetynet.safetynetalerts.service.CRUDService;
 
 //TODO : log dans un fichier
 @RequestMapping("/v1")
@@ -29,7 +29,7 @@ public class CRUDRestController {
 	Logger logger = LoggerFactory.getLogger(CRUDRestController.class);
 
 	@Autowired
-	CRUDService entities;
+	ICRUDService entities;
 
 	@Autowired
 	EntitiesContainer container;
@@ -37,7 +37,7 @@ public class CRUDRestController {
 	@Autowired
 	ObjectMapper mapper;
 	
-	
+
 	@GetMapping(value="/person", params= {"firstName","lastName"})
 	public JsonNode getPerson(@RequestParam String firstName, @RequestParam String lastName) throws IllegalRequestException{
 		logger.info("GET /v1/person?firstName="+firstName+"&lastName="+lastName);
