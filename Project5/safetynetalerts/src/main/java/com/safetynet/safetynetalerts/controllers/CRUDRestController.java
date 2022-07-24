@@ -37,7 +37,7 @@ public class CRUDRestController {
 	@Autowired
 	ObjectMapper mapper;
 	
-
+	
 	@GetMapping(value="/person", params= {"firstName","lastName"})
 	public JsonNode getPerson(@RequestParam String firstName, @RequestParam String lastName) throws IllegalRequestException{
 		logger.info("GET /v1/person?firstName="+firstName+"&lastName="+lastName);

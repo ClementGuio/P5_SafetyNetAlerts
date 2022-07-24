@@ -35,7 +35,7 @@ public class PersonMedicalrecordFirestation{
 	
 	public boolean isChild() {
 		return getAge()<18;
-	} 
+	}
 	
 	public Integer getAge() {
 		return getBirthdate().until(LocalDate.now()).getYears();

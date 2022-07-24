@@ -35,7 +35,7 @@ public class CRUDService implements ICRUDService {
 		}else {
 			container.getMedicalrecords().remove(recordToRemove);
 		}
-	} 
+	}
 
 	@Override
 	public void updateMedicalrecord(Medicalrecord record) throws IllegalRequestException{

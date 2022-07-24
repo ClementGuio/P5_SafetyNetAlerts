@@ -70,7 +70,7 @@ public class AlertRestControllerTest {
 						+ "\"n° children\":1,"
 						+ "\"n° adults\":1}"));
 	}
-	 
+	
 	@Test
 	public void testFireAlert() throws Exception{
 		mvc.perform( MockMvcRequestBuilders 

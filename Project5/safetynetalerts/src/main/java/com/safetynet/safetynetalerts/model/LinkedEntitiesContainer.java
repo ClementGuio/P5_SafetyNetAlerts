@@ -37,7 +37,7 @@ public class LinkedEntitiesContainer implements EntityLinker{
 	public List<PersonMedicalrecordFirestation> getLinkedEntities(){
 		return linkedEntities;
 	}
- 
+
 	public void linkEntities() throws MissingEntitiesException{
 		logger.info("linkEntities() starts!");
 		List<PersonMedicalrecordFirestation> linkedEntities = new ArrayList<PersonMedicalrecordFirestation>(); 
